@@ -1,9 +1,10 @@
-# Arquivos preparados para envio
+# Arquivos da revisão
 
-Aguardando aprovação dos prints. Nenhum arquivo enviado ao GitHub nesta revisão.
+Envio à main autorizado pelo responsável. Código estático, assets públicos e ferramentas de QA. PDFs pagos, originais, .env, node_modules, ZIPs, prints e relatórios gerados não entram no envio.
 
-Total: 36 arquivos. PDFs pagos, originais, .env, node_modules, prints e relatórios de teste ficam fora do envio.
+Total: 46 arquivos no projeto.
 
+- `.gitattributes`
 - `.gitignore`
 - `ARQUIVOS-PARA-ENVIO.md`
 - `ARQUIVOS-REFERENCIADOS.md`
@@ -18,7 +19,10 @@ Total: 36 arquivos. PDFs pagos, originais, .env, node_modules, prints e relatór
 - `assets/fonts/Fraunces-OFL.txt`
 - `assets/fonts/dm-sans-latin.woff2`
 - `assets/fonts/fraunces-latin.woff2`
-- `assets/icons.svg`
+- `assets/hero-1200.webp`
+- `assets/hero-480.webp`
+- `assets/hero-768.webp`
+- `assets/icons-v2.svg`
 - `assets/pages/kit-09.webp`
 - `assets/pages/kit-10.webp`
 - `assets/pages/kit-12.webp`
@@ -33,10 +37,16 @@ Total: 36 arquivos. PDFs pagos, originais, .env, node_modules, prints e relatór
 - `calendar.js`
 - `config.js`
 - `depoimentos/conversa-ceia.webp`
+- `depoimentos/mariana.webp`
+- `depoimentos/roberto.webp`
 - `index.html`
+- `popup.js`
 - `scripts/audit-files.cjs`
 - `scripts/capture-revision.cjs`
+- `scripts/qa-conversion.cjs`
 - `scripts/qa-revision.cjs`
+- `scripts/runtime.cjs`
+- `scripts/sync-critical.cjs`
 - `styles.css`
 - `tests/calendar.test.cjs`
 - `vercel.json`

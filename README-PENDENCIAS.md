@@ -1,16 +1,23 @@
 # Pendências e limites reais
 
-1. GitHub: aguardando aprovação dos prints. Nenhum push ou commit remoto foi feito nesta revisão.
-2. Razão social/CNPJ não foram fornecidos. As variáveis estão vazias e o rodapé as omite até o preenchimento.
-3. Confirmar o canal de entrega da Cakto. A página promete acesso após confirmação, sem inventar e-mail ou área de membros.
-4. Revisar/fornecer as páginas legais definitivas; configurar suas URLs em config.js.
-5. Há apenas um print real de feedback. O carrossel funciona com mais imagens, mas não fabrica ou duplica relatos.
-6. As listas prontas do PDF são para 6 e 10 pessoas; a tabela tem colunas reais para 4, 6, 8, 10 e 12. O seletor respeita essas opções.
-7. Lista de compras, “Ceia em 3 dias” e plano hora a hora existem nos PDFs finais. Nenhum deles precisou ser omitido.
-8. O plano do PDF usa 21h como exemplo ajustável. O relógio comercial usa 20h, conforme solicitado. Amostras preservam o PDF original.
+## Dados que ainda precisam do responsável
 
-9. Desempenho: Lighthouse mobile 84/100 e LCP 2.6 s; metas ≥90 e <2,5 s pendentes. Detalhes em VERIFICACAO.md.
+1. Preencher RAZAO_SOCIAL e CNPJ em config.js. O rodapé omite esses campos enquanto estiverem vazios.
+2. Confirmar o canal de entrega na configuração deste produto na Cakto e preencher ENTREGA_CONFIRMADA. Hoje o FAQ informa apenas liberação após a confirmação do pagamento, sem prometer um canal específico.
+3. Fornecer/revisar as páginas legais definitivas e configurar PRIVACIDADE_URL e TERMOS_URL. Há diálogos informativos básicos como fallback.
+4. Incluir no PDF a orientação: “Multiplique a quantidade por pessoa. Forno, panelas e temperos pedem ajuste.” O repositório não traz o PDF completo nem uma amostra que comprove essa instrução. A opção “13 ou mais” exibe somente a mensagem, sem quantidades. O FAQ usa uma resposta conservadora até ORIENTACAO_13_CONFIRMADA ser validada.
+5. Fornecer SVGs oficiais de Pix, Visa, Mastercard e Elo. Na ausência dos arquivos oficiais, foram usadas as pílulas de texto autorizadas; nenhum logo foi recriado.
 
-Dados confirmados dos PDFs: kit com 51 páginas e 14 receitas; Bônus 1 com 11 páginas e Bônus 2 com 13. Os formulários não calculam automaticamente.
+## Conferido nesta revisão
 
-Os arquivos pagos completos não fazem parte do projeto. Apenas imagens de amostras e capas necessárias aos mockups são públicas. Preço, garantia e pagamento são condições da oferta fornecidas pelo responsável.
+- Novo pixel 902695826167879 substitui o ID antigo. Eventos e UTMs testados, sem envio real ao Meta durante QA.
+- Três prints distintos: o existente e os dois anexos fornecidos, todos em WebP. Sem fabricar ou duplicar depoimentos.
+- Tabela real: 4, 6, 8, 10 e 12 pessoas. As opções 5, 7, 9 e 11 usam cálculo proporcional identificado no site, derivado das mesmas proporções. As listas prontas do PDF são para 6 e 10.
+- Os formulários do PDF não calculam automaticamente. A demonstração do site calcula os três exemplos, sem prometer automação dentro do arquivo.
+- As páginas reais dos mockups foram preservadas, inclusive suas referências de quantidade. Não há “4 a 12 pessoas” nos chips ou na copy principal.
+- O exemplo do PDF serve às 21h; o relógio comercial aponta 24/12/2026 às 20h, como no projeto original. Após esse horário, acompanha o Réveillon.
+- Kit com 51 páginas e 14 receitas; bônus com 11 e 13 páginas, conforme documentação original. Os arquivos pagos completos não fazem parte do repositório.
+- Metas locais de desempenho atingidas: Lighthouse mobile 98, LCP 2,40 s, CLS 0, TBT 6 ms. Medição por HTTP/gzip; detalhes e limitações em VERIFICACAO.md.
+- 11 testes do relógio, 10 grupos funcionais e 8 verificações adicionais de conversão passaram. Prints nos seis tamanhos e em cinco datas.
+
+O envio à main foi autorizado no pedido desta revisão. Não há nova aprovação pendente para o push. A confirmação do deploy é registrada na entrega; os dados de negócio acima continuam pendentes após a publicação.

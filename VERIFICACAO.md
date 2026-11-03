@@ -1,49 +1,39 @@
-# Verificação da revisão
+# Verificação da página revisada
 
-Revisão visual e funcional disponível para aprovação. Nenhum commit ou push foi feito.
+## Método
 
-## Conferência visual
+Mesmo computador, Chrome headless e Lighthouse 12.8.2 com simulação mobile padrão. Servidor HTTP serve 14.2.4 em localhost:8765 com gzip confirmado no cabeçalho Content-Encoding. Sem eventos enviados ao pixel real e sem abrir compras durante os testes. Medições de laboratório, não dados de usuários em produção.
 
-Playwright em HTTP com `npx serve@14.2.4`: 360×740, 390×844, 412×915, 768×1024, 1280×800 e 1440×900.
+## Desempenho antes e depois
 
-- Seis viewports sem rolagem horizontal, textos cortados, sobreposição detectada ou imagens quebradas.
-- Em 390×844, o mockup começa em y=398 e termina em y=748: título, CTA e mockup cabem na primeira tela.
-- Cinco datas simuladas com prints: 03/11/2026 14:41, 23/12/2026 14:41, 24/12/2026 10h, 24/12/2026 21h e 02/01/2027 10h.
-- Prints adicionais do seletor de quantidades, feedback ampliável e pop-up mobile/desktop.
-- Os prints estáticos usam reduced motion para registrar o conteúdo final. Animações e carrossel foram testados separadamente.
+| Métrica | Referência do projeto anterior | Antes neste computador | Depois neste computador |
+| --- | ---: | ---: | ---: |
+| Lighthouse mobile | 84 | 96 | 98 |
+| LCP | 2,60 s | 2,71 s | 2,40 s |
+| CLS | 0 | 0 | 0 |
+| TBT | 440 ms | 16 ms | 6 ms |
+
+Os valores de 84/2,6 s vieram da documentação original e de outro ambiente. A comparação direta usa as colunas medidas neste computador. A rodada final também obteve 100 em acessibilidade, boas práticas e SEO. Metas de performance ≥90 e LCP ≤2,5 s atingidas nesta medição.
+
+Otimizações: hero WebP responsivo 480/768/1200, com 46.324/86.000/116.686 bytes; preload e fetchpriority high na capa; dimensões reservadas; fontes WOFF2 locais; CSS crítico inline e restante não bloqueante; scripts defer; Meta e pop-up após a primeira pintura; lazy/async abaixo da primeira tela; imagens de páginas e bônus abaixo de 80 KB. A capa do cartão usa o arquivo de 46 KB. O hero nunca fica oculto esperando JavaScript.
 
 ## Testes
 
-- 11 testes unitários do relógio passaram. Incluem Date.now em cada cálculo, HEAD inválido, file://, primeira renderização e segundos com reduced motion.
-- 10 grupos funcionais Playwright passaram: abas e imagens, quantidades reais, FAQ, cinco fases/data, pixel/UTMs, pixel vazio, feedback/lightbox, carrossel e saída mobile/desktop.
-- PageView independente de aceite, ViewContent somente no plano e InitiateCheckout nos três links de checkout. O checkout e o pixel reais não receberam tráfego de QA.
-- 22 arquivos referenciados; zero arquivos ou símbolos SVG faltantes. Lista em ARQUIVOS-REFERENCIADOS.md.
-- Um único print real de feedback. A prova com três itens usa uma fixture isolada no navegador de teste; nenhum relato foi adicionado à página.
+- 11 testes do relógio passaram, preservando cálculo por Date.now, quatro unidades, datas de transição, HEAD inválido, file:// e reduced motion.
+- 10 grupos funcionais passaram: cinco abas com naturalWidth > 0, quantidades originais, FAQ, cinco datas, eventos/UTMs, ID vazio, três prints distintos, ampliação, autoavanço/pausa, saída desktop/mobile e fechamento fora.
+- 8 testes adicionais passaram: seletor completo com origem dos valores, mensagem para 13+, variante B em 360/390/1280, atraso de 12 s, perguntas expansíveis, foco contido, fechamento por gesto, persistência por sessão, bloqueio no fim e após checkout, setas com 1/2/3 prints e inicialização do novo pixel.
+- O teste do pixel intercepta fbevents.js e verifica init 902695826167879, PageView, ViewContent e InitiateCheckout, sem transmitir eventos ao Meta.
 
-## Desempenho: pendência explícita
+## Revisão visual
 
-Lighthouse mobile, configuração de throttling padrão, em Chrome headless por HTTP local:
+Playwright por HTTP: 360×740, 390×844, 412×915, 768×1024, 1280×800 e 1440×900. Sem rolagem horizontal, textos fora do viewport, erros de página ou imagens quebradas. Conferência visual dos prints desktop, celular e pop-ups.
 
-| Métrica | Resultado |
-|---|---:|
-| Desempenho | 84/100 |
-| Acessibilidade | 100/100 |
-| Boas práticas | 100/100 |
-| SEO | 100/100 |
-| LCP | 2.6 s |
-| TBT | 440 ms |
-| CLS | 0 |
+Em 390×844 o mockup começa em y≈353 e termina em y≈703. O título, CTA e capa inteira aparecem na primeira tela. A faixa permanece fixa, com todas as unidades.
 
-As metas de desempenho ≥90 e LCP <2,5 s ainda não foram confirmadas. O próprio Lighthouse avisou que a CPU do ambiente estava mais lenta que a esperada. Houve pressão de memória durante as medições; isso limita a comparação, sem comprovar que seja a única causa. A entrega não declara essas metas como aprovadas.
+Cinco datas simuladas: 03/11/2026 14:41, 23/12/2026 14:41, 24/12/2026 10h, 24/12/2026 21h e 02/01/2027 10h. São testadas as fases planejamento, véspera, dia da ceia, Réveillon e encerramento, sem alterar preço.
 
-Otimizações aplicadas: capa responsiva menor no hero, preload da imagem LCP correta, remoção de leitura de scroll no startup, menos escritas no DOM e inicialização das interações após a primeira pintura. CSS/JS sem dependências; fontes locais; imagens com dimensões e lazy-load abaixo da primeira tela. Relatório completo em prints/revisao/lighthouse-mobile.report.html.
+Os prints finais usam reduced motion para registrar o estado completo. Autoavanço, gesto e animações são verificados em testes separados. Os mocks mantêm as páginas reais, sem recorte do conteúdo pago. Os arquivos de relatório e imagens são entregues separadamente e não pesam no deploy.
 
-## Conteúdo e publicação
+## Limites
 
-Os PDFs finais têm lista de compras, “Ceia em 3 dias” e plano do dia 24 hora a hora. As listas prontas cobrem 6 e 10 pessoas; a amostra de quantidades usa as cinco colunas reais: 4, 6, 8, 10 e 12.
-
-Faltam razão social/CNPJ, URLs legais definitivas e confirmação do canal de entrega da Cakto. Leia README-PENDENCIAS.md.
-
-O pacote de projeto contém código, fontes licenciadas, capas, amostras e o feedback fornecido. Não contém PDFs pagos, originais, credenciais ou links de entrega do produto.
-
-O envio ao GitHub depende da aprovação dos prints solicitada pelo responsável. ARQUIVOS-PARA-ENVIO.md é a relação preparada; nenhum desses arquivos foi enviado nesta revisão.
+Não houve compra, validação do recebimento do produto nem acesso administrativo à Cakto. CNPJ, canal de entrega, textos legais, orientação para grupos maiores no PDF e SVGs oficiais de pagamento continuam listados em README-PENDENCIAS.md. As métricas locais não garantem o mesmo resultado em todo aparelho, rede ou instalação de terceiros.
