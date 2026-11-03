@@ -172,7 +172,6 @@ function mountClock(config = {}, environment = root) {
         ? `Faltam ${countdown.days} dias, ${countdown.hours} horas e ${countdown.minutes} minutos para ${state.phase === 'reveillon' ? 'o Réveillon' : 'a ceia de Natal'}. ${state.label.replace(/\d{2}:\d{2}:\d{2}/g, '')}`
         : state.label;
       if (accessible) accessible.textContent = text;
-      if (link) link.setAttribute('aria-label', `${text} Ver plano completo.`);
       lastMinute = minute;
     }
     return { state, countdown };

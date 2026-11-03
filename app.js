@@ -2,6 +2,7 @@
 (() => {
   'use strict';
   const C = window.CEIA_CONFIG;
+  window.ceiaClock = window.CeiaCalendar.mountClock(C);
   const $ = (q, root = document) => root.querySelector(q);
   const $$ = (q, root = document) => [...root.querySelectorAll(q)];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -42,18 +43,29 @@
     if (!preview || C.ENABLE_PIXEL_IN_PREVIEW) window.fbq?.('track', name, data);
   }
   if (!pixelID) console.warn('[Ceia Pixel] ID em branco: nenhum evento será disparado.');
-  else track('PageView');
-  $$('.checkout').forEach(a => a.addEventListener('click', () => track('InitiateCheckout', { content_name: 'Ceia de Natal Sem Correria · Kit completo', value: C.PRECO, currency: 'BRL', num_items: 1 })));
+  else requestAnimationFrame(() => requestAnimationFrame(() => track('PageView')));
+  $$('.checkout').forEach(a => a.addEventListener('click', () => {
+    store.set('sessionStorage', 'ceia-checkout-clicked', '1');
+    track('InitiateCheckout', { content_name: 'Ceia de Natal Sem Correria · Kit completo', value: C.PRECO, currency: 'BRL', num_items: 1 });
+  }));
 
   // O primeiro frame entrega o hero e o relógio; as interações entram em seguida.
   // Checkout e PageView já estão ativos acima.
   function initializeUI() {
   let focusBeforeDialog;
-  function openDialog(dialog) { if (document.querySelector('dialog[open]')) return; focusBeforeDialog = document.activeElement; dialog.showModal(); document.body.classList.add('dialog-open'); }
+  function openDialog(dialog) { if (document.querySelector('dialog[open]')) return; focusBeforeDialog = document.activeElement; dialog.showModal(); document.body.classList.add('dialog-open'); $('.dialog-close', dialog).focus({ preventScroll: true }); }
   function closeDialog(dialog) { dialog.close(); document.body.classList.remove('dialog-open'); focusBeforeDialog?.focus({ preventScroll: true }); }
   function openPreview(src, title) { $('#preview-image').src = src; $('#preview-image').alt = title; $('#preview-title').textContent = title; openDialog($('#preview-dialog')); }
   $$('dialog').forEach(dialog => {
     $('.dialog-close', dialog).addEventListener('click', () => closeDialog(dialog));
+    dialog.addEventListener('keydown', event => {
+      if (event.key !== 'Tab') return;
+      const controls = $$('a[href], button:not([disabled]), summary, input, select, [tabindex="0"]', dialog).filter(el => el.getClientRects().length);
+      const index = controls.indexOf(document.activeElement);
+      if (index < 0 || (event.shiftKey && index === 0) || (!event.shiftKey && index === controls.length - 1)) {
+        event.preventDefault(); controls[event.shiftKey ? controls.length - 1 : 0]?.focus();
+      }
+    });
     dialog.addEventListener('click', event => { const r = dialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) closeDialog(dialog); });
     dialog.addEventListener('cancel', () => { document.body.classList.remove('dialog-open'); focusBeforeDialog?.focus({ preventScroll: true }); });
   });
@@ -61,11 +73,11 @@
 
   function animateSwitch(node) { if (reduced) return; node.classList.remove('switch-enter'); requestAnimationFrame(() => node.classList.add('switch-enter')); }
   const tabs = {
-    cardapios: { phrase: 'Três cardápios. Uma ceia do seu jeito.', page: 'kit-09', floating: '3 cardápios' },
-    quantidades: { phrase: 'Quantidades para o seu número de convidados.', page: 'kit-19', floating: '4 a 12 pessoas' },
-    cronograma: { phrase: 'Do primeiro preparo à hora de servir.', page: 'kit-10', floating: 'Plano do dia 24' },
-    compras: { phrase: 'Listas prontas para 6 e 10 pessoas.', page: 'kit-22', floating: 'Lista pronta' },
-    orcamento: { phrase: 'Defina os gastos. Divida as tarefas.', page: 'kit-28', floating: 'Tarefas divididas' },
+    cardapios: { phrase: '3 ceias prontas. Escolha uma.', page: 'kit-09', floating: '3 cardápios' },
+    quantidades: { phrase: 'Escolha os convidados e veja a conta.', page: 'kit-19', floating: '4 pessoas ou mais' },
+    cronograma: { phrase: 'A ordem do forno, sem improviso.', page: 'kit-10', floating: 'Plano do dia 24' },
+    compras: { phrase: 'Leve pronta ao mercado.', page: 'kit-22', floating: 'Lista pronta' },
+    orcamento: { phrase: 'Quanto gastar. Quem faz o quê.', page: 'kit-28', floating: 'Tarefas divididas' },
   };
   let activeTab = 'cardapios';
   function showPage(page, title) {
@@ -96,13 +108,27 @@
   const menus = { tradicional: 'kit-09', economico: 'kit-12', pratico: 'kit-15' };
   $$('#menu-choices button').forEach(button => button.addEventListener('click', () => { $$('#menu-choices button').forEach(b => b.setAttribute('aria-pressed', b === button)); showPage(menus[button.dataset.menu], `Cardápio ${button.textContent}`); }));
   const quantities = { 4: ['1,4 kg', '240 g', '360 g'], 6: ['2,1 kg', '360 g', '540 g'], 8: ['2,8 kg', '480 g', '720 g'], 10: ['3,5 kg', '600 g', '900 g'], 12: ['4,2 kg', '720 g', '1.080 g'] };
-  $('#people').addEventListener('change', event => { ['#q-chicken', '#q-rice', '#q-veg'].forEach((selector, i) => $(selector).textContent = quantities[event.target.value][i]); animateSwitch($('.quantity-table')); });
+  $('#people').addEventListener('change', event => {
+    const n = Number(event.target.value), more = n >= 13;
+    $('.quantity-table').hidden = more; $('#quantity-more').hidden = !more;
+    $('#quantity-origin').textContent = more ? 'GRUPOS MAIORES' : quantities[n] ? 'TABELA DO KIT' : 'CÁLCULO PROPORCIONAL';
+    if (more) return;
+    const values = quantities[n] || [
+      (n * .35).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + ' kg',
+      (n * 60).toLocaleString('pt-BR') + ' g',
+      (n * 90).toLocaleString('pt-BR') + ' g'
+    ];
+    ['#q-chicken', '#q-rice', '#q-veg'].forEach((selector, i) => $(selector).textContent = values[i]);
+    animateSwitch($('.quantity-table'));
+  });
+  if (C.ENTREGA_CONFIRMADA) $$('.faq-answer p')[3].textContent = C.ENTREGA_CONFIRMADA;
+  if (C.ORIENTACAO_13_CONFIRMADA) $$('.faq-answer p')[0].textContent = 'Sim. A tabela cobre 4 a 12 pessoas; para mais, multiplique. Forno e panelas pedem ajuste.';
   // Deslizar o mockup também navega pelas abas; não depende de hover.
   let tabTouchX;
   $('#inside-panel').addEventListener('touchstart', e => { tabTouchX = e.touches[0].clientX; }, { passive: true });
   $('#inside-panel').addEventListener('touchend', e => { if (tabTouchX === undefined || e.target.closest('select,button')) return; const dx = e.changedTouches[0].clientX - tabTouchX; if (Math.abs(dx) > 65) { const keys = Object.keys(tabs); const next = (keys.indexOf(activeTab) + (dx < 0 ? 1 : -1) + keys.length) % keys.length; showTab(keys[next]); } tabTouchX = undefined; }, { passive: true });
 
-  // Um único print real: sem duplicar para simular mais compradores.
+  // Cada print fornecido aparece uma vez, sem duplicar relatos.
   const trackEl = $('#feedback-track');
   let slide = 0, carouselTimer = null, carouselPaused = false;
   const feedbacks = C.SHOW_TESTIMONIALS ? (C.TESTIMONIALS || []) : [];
@@ -111,16 +137,17 @@
     if (feedbacks.length < 2) return;
     slide = (slide + direction + feedbacks.length) % feedbacks.length;
     const item = trackEl.children[slide];
-    trackEl.scrollTo({ left: item.offsetLeft - trackEl.offsetLeft - (trackEl.clientWidth - item.offsetWidth) / 2, behavior: reduced ? 'instant' : 'smooth' });
+    trackEl.scrollTo({ left: item.offsetLeft - trackEl.offsetLeft, behavior: reduced ? 'instant' : 'smooth' });
   }
   function pauseCarousel() { carouselPaused = true; clearInterval(carouselTimer); carouselTimer = null; }
   function startCarousel() { if (reduced || carouselPaused || document.hidden || feedbacks.length < 2 || carouselTimer) return; carouselTimer = setInterval(() => moveCarousel(1), 5000); }
   if (feedbacks.length) {
     $('#depoimentos').hidden = false; trackEl.classList.toggle('single', feedbacks.length === 1);
-    $('#feedback-prev').disabled = feedbacks.length === 1; $('#feedback-next').disabled = feedbacks.length === 1;
+    $('.carousel-controls').hidden = feedbacks.length < 3;
+    $('#feedback-prev').disabled = feedbacks.length < 3; $('#feedback-next').disabled = feedbacks.length < 3;
     feedbacks.forEach((src, i) => {
       const item = document.createElement('article'); item.className = 'feedback-item';
-      const img = document.createElement('img'); img.src = src.startsWith('./') ? src : `./${src}`; img.alt = `Print real de feedback ${i + 1}, enviado sobre o kit`; img.loading = 'lazy'; img.width = 720; img.height = 1440;
+      const img = document.createElement('img'); img.src = src.startsWith('./') ? src : `./${src}`; img.alt = `Print real de feedback ${i + 1}, enviado sobre o kit`; img.loading = 'lazy'; img.decoding = 'async'; img.width = 720; img.height = 1440;
       const button = document.createElement('button'); button.className = 'ampliar'; button.textContent = 'Ampliar'; button.setAttribute('aria-label', `Ampliar feedback ${i + 1}`); button.addEventListener('click', () => { pauseCarousel(); openPreview(img.src, 'Feedback sobre o kit'); });
       img.addEventListener('load', () => { loadedFeedbacks++; });
       img.addEventListener('error', () => { item.hidden = true; if (![...trackEl.children].some(el => !el.hidden)) $('#depoimentos').hidden = true; });
@@ -133,40 +160,36 @@
   }
   document.addEventListener('visibilitychange', () => { if (document.hidden) { clearInterval(carouselTimer); carouselTimer = null; } else startCarousel(); });
 
-  // Progresso, parallax e saída: apenas depois de visita e leitura suficientes.
-  const visitStart = Date.now();
-  let maxRead = 0, maxY = 0, lastY = 0, lastScrollAt = Date.now(), scrollFrame = false;
-  function exitEligible(mobile) { return Date.now() - visitStart >= 15000 && maxRead >= (mobile ? .5 : .4) && !store.get('sessionStorage', 'ceia-exit-shown') && !document.querySelector('dialog[open]'); }
-  function tryExit(mobile) {
-    if (!exitEligible(mobile)) return false;
-    store.set('sessionStorage', 'ceia-exit-shown', '1');
-    const state = window.ceiaClock.getState();
-    $('#exit-text').textContent = state.phase === 'ended' ? `O plano pronto custa ${money.format(C.PRECO)}.` : `Faltam ${state.days} dias. O plano pronto custa ${money.format(C.PRECO)}.`;
-    openDialog($('#exit-dialog')); return true;
-  }
+  // Progresso e parallax usam um único frame por rolagem.
+  let scrollFrame = false;
+  const parallax = $$('.parallax');
   function onScroll() {
     scrollFrame = false;
-    const y = scrollY, timestamp = Date.now(); const length = document.documentElement.scrollHeight - innerHeight;
-    const fraction = length > 0 ? Math.min(1, y / length) : 0;
-    maxRead = Math.max(maxRead, fraction); maxY = Math.max(maxY, y);
-    $('#reading-progress').style.transform = `scaleX(${fraction})`;
-    if (!reduced) $$('.parallax').forEach(el => el.style.setProperty('--parallax-y', `${Math.min(y, 900) * Number(el.dataset.parallax)}px`));
-    if (innerWidth < 1000 && lastY - y > 95 && timestamp - lastScrollAt < 220 && (lastY - y) / Math.max(timestamp - lastScrollAt, 1) > .6) tryExit(true);
-    lastY = y; lastScrollAt = timestamp;
+    const y = scrollY, length = document.documentElement.scrollHeight - innerHeight;
+    $('#reading-progress').style.transform = 'scaleX(' + (length > 0 ? Math.min(1, y / length) : 0) + ')';
+    if (!reduced && y < 1000) parallax.forEach(el => el.style.setProperty('--parallax-y', Math.min(y, 900) * Number(el.dataset.parallax) + 'px'));
   }
   addEventListener('scroll', () => { if (!scrollFrame) { scrollFrame = true; requestAnimationFrame(onScroll); } }, { passive: true });
-  document.addEventListener('mouseout', e => { if (innerWidth >= 1000 && e.clientY <= 0 && !e.relatedTarget) tryExit(false); });
-  $('#exit-dismiss').addEventListener('click', () => closeDialog($('#exit-dialog')));
+  const popupScript = document.createElement('script');
+  popupScript.src = './popup.js'; popupScript.async = true;
+  popupScript.onload = () => window.initCeiaPopup({ $, $$, C, store, reduced, openDialog, closeDialog });
+  document.head.appendChild(popupScript);
 
   // Revelação e count-up só nos dois números dos cartões do hero.
-  if ('IntersectionObserver' in window) {
-    if (!reduced) {
+  function initializeMotion() {
+    document.body.classList.add('motion-ready');
+    if ('IntersectionObserver' in window && !reduced) {
       const reveal = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.animate([{opacity:0,transform:'translateY(18px)'},{opacity:1,transform:'translateY(0)'}],{duration:550,delay:Number(e.target.dataset.revealDelay||0),easing:'cubic-bezier(.2,.7,.3,1)',fill:'backwards'}); reveal.unobserve(e.target); } }), { threshold: .05 });
       $$('.reveal').forEach((el, i) => { el.dataset.revealDelay = String((i % 3) * 55); reveal.observe(el); });
       const count = new IntersectionObserver(entries => entries.forEach(e => { if (!e.isIntersecting) return; count.unobserve(e.target); const target = Number(e.target.dataset.count), start = performance.now(); function frame(t) { const p = Math.min(1, (t - start) / 650), value=String(Math.max(1, Math.round(target * (1 - (1 - p) ** 3)))); if(e.target.textContent!==value)e.target.textContent=value; if (p < 1) requestAnimationFrame(frame); } requestAnimationFrame(frame); }), { threshold: .4 });
       $$('[data-count]').forEach(el => count.observe(el));
+      const seals = new IntersectionObserver(entries => entries.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('stamped'); seals.unobserve(e.target); }), { threshold: .5 });
+      $$('.guarantee-seal').forEach(el => seals.observe(el));
     }
-    const planObserver = new IntersectionObserver(entries => { if (!entries.some(e => e.isIntersecting)) return; if (!viewContentSent && consent !== 'essential') { track('ViewContent', { content_name: 'Ceia de Natal Sem Correria', value: C.PRECO, currency: 'BRL' }); viewContentSent = true; } if (!reduced) $('.plan-button').classList.add('nudge'); planObserver.disconnect(); }, { threshold: .15 }); planObserver.observe($('#plano'));
+  }
+  $('.hero-book img').decode().catch(() => {}).then(() => requestAnimationFrame(() => requestAnimationFrame(initializeMotion)));
+  if ('IntersectionObserver' in window) {
+    const planObserver = new IntersectionObserver(entries => { if (!entries.some(e => e.isIntersecting)) return; if (!viewContentSent && consent !== 'essential') { track('ViewContent', { content_name: 'Ceia de Natal Sem Correria', value: C.PRECO, currency: 'BRL' }); viewContentSent = true; } planObserver.disconnect(); }, { threshold: .15 }); planObserver.observe($('#plano'));
   }
   if (!reduced) $$('.tilt').forEach(el => {
     function tilt(event) { const r = el.getBoundingClientRect(); el.style.setProperty('--tilt-x', `${-(event.clientY - r.top - r.height / 2) / r.height * 4}deg`); el.style.setProperty('--tilt-y', `${(event.clientX - r.left - r.width / 2) / r.width * 4}deg`); el.classList.add('is-tilting'); }
@@ -182,7 +205,7 @@
   const terms = `<p>Kit digital em PDF: material principal, Mesa de Natal Encantadora e Réveillon Sem Correria. Versões digital e para imprimir.</p><p>${money.format(C.PRECO)} em pagamento único. Acesso após confirmação do pagamento. Reembolso integral em 7 dias, conforme art. 49 do CDC.</p><p>Quantidades e tempos são estimativas. Cardápios não adaptados a restrições. Imagens ilustrativas.</p>`;
   $$('[data-legal]').forEach(button => button.addEventListener('click', () => { const type = button.dataset.legal; const url = type === 'privacy' ? C.PRIVACIDADE_URL : C.TERMOS_URL; if (url) { location.href = url; return; } $('#legal-title').textContent = type === 'privacy' ? 'Privacidade' : 'Termos'; $('#legal-content').innerHTML = type === 'privacy' ? privacy : terms; openDialog($('#legal-dialog')); }));
 
-  if (preview) window.__CEIA_DEBUG = { getEvents: () => [...events], getState: () => ceiaClock.getState(), getTimeSource: () => ceiaClock.getTimeSource(), showTab, quantities, checkoutURL: checkout.href, carousel: () => ({ count: feedbacks.length, slide, paused: carouselPaused, active: !!carouselTimer, loaded: loadedFeedbacks }), exit: () => ({ age: Date.now() - visitStart, maxRead, maxY, eligibleDesktop: exitEligible(false), eligibleMobile: exitEligible(true) }) };
+  if (preview) window.__CEIA_DEBUG = { getEvents: () => [...events], getState: () => ceiaClock.getState(), getTimeSource: () => ceiaClock.getTimeSource(), showTab, quantities, checkoutURL: checkout.href, carousel: () => ({ count: feedbacks.length, slide, paused: carouselPaused, active: !!carouselTimer, loaded: loadedFeedbacks }) };
   }
   requestAnimationFrame(() => requestAnimationFrame(initializeUI));
 })();
