@@ -1,0 +1,188 @@
+/* Site estático: sem imports, sem dependências e com caminhos relativos. */
+(() => {
+  'use strict';
+  const C = window.CEIA_CONFIG;
+  const $ = (q, root = document) => root.querySelector(q);
+  const $$ = (q, root = document) => [...root.querySelectorAll(q)];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const preview = CeiaCalendar.isPreviewHost(location.hostname);
+  const money = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+  const store = { get(type, key) { try { return window[type].getItem(key); } catch { return null; } }, set(type, key, value) { try { window[type].setItem(key, value); } catch { /* Navegação privada. */ } } };
+  const relativePage = page => `./assets/pages/${page}.webp`;
+  const events = [];
+  let consent = store.get('localStorage', 'ceia-cookie-choice');
+  let pixelReady = false;
+  let viewContentSent = false;
+  const pixelID = String(C.PIXEL_META || '').trim();
+  const checkout = new URL(C.CHECKOUT, location.href);
+  new URLSearchParams(location.search).forEach((value, key) => { if (/^utm_/i.test(key) || key === 'fbclid') checkout.searchParams.set(key, value); });
+  $$('.checkout').forEach(a => a.href = checkout.href);
+  $$('[data-price]').forEach(el => el.textContent = money.format(C.PRECO).replace('R$', '').trim());
+  $$('[data-support]').forEach(el => { el.href = `mailto:${C.SUPORTE}`; el.textContent = C.SUPORTE; });
+  if (C.RAZAO_SOCIAL || C.CNPJ) { $('#business-details').hidden = false; $('#business-details').textContent = [C.RAZAO_SOCIAL, C.CNPJ && `CNPJ ${C.CNPJ}`].filter(Boolean).join(' · '); }
+
+  function bootPixel() {
+    if (pixelReady || !pixelID) return;
+    pixelReady = true;
+    if (preview && !C.ENABLE_PIXEL_IN_PREVIEW) return;
+    if (!window.fbq) {
+      const fbq = window.fbq = function () { fbq.callMethod ? fbq.callMethod.apply(fbq, arguments) : fbq.queue.push(arguments); };
+      window._fbq = fbq; fbq.push = fbq; fbq.loaded = true; fbq.version = '2.0'; fbq.queue = [];
+      const script = document.createElement('script'); script.async = true; script.src = 'https://connect.facebook.net/en_US/fbevents.js'; document.head.appendChild(script);
+    }
+    window.fbq('init', pixelID);
+  }
+  function track(name, data = {}) {
+    if (!pixelID) return;
+    // PageView ocorre ao carregar, independentemente do banner/aceite.
+    // Uma recusa explícita interrompe os eventos posteriores.
+    if (name !== 'PageView' && consent === 'essential') return;
+    bootPixel(); events.push({ event: name, data });
+    if (preview) console.log('[Ceia Pixel]', name, data);
+    if (!preview || C.ENABLE_PIXEL_IN_PREVIEW) window.fbq?.('track', name, data);
+  }
+  if (!pixelID) console.warn('[Ceia Pixel] ID em branco: nenhum evento será disparado.');
+  else track('PageView');
+  $$('.checkout').forEach(a => a.addEventListener('click', () => track('InitiateCheckout', { content_name: 'Ceia de Natal Sem Correria · Kit completo', value: C.PRECO, currency: 'BRL', num_items: 1 })));
+
+  // O primeiro frame entrega o hero e o relógio; as interações entram em seguida.
+  // Checkout e PageView já estão ativos acima.
+  function initializeUI() {
+  let focusBeforeDialog;
+  function openDialog(dialog) { if (document.querySelector('dialog[open]')) return; focusBeforeDialog = document.activeElement; dialog.showModal(); document.body.classList.add('dialog-open'); }
+  function closeDialog(dialog) { dialog.close(); document.body.classList.remove('dialog-open'); focusBeforeDialog?.focus({ preventScroll: true }); }
+  function openPreview(src, title) { $('#preview-image').src = src; $('#preview-image').alt = title; $('#preview-title').textContent = title; openDialog($('#preview-dialog')); }
+  $$('dialog').forEach(dialog => {
+    $('.dialog-close', dialog).addEventListener('click', () => closeDialog(dialog));
+    dialog.addEventListener('click', event => { const r = dialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) closeDialog(dialog); });
+    dialog.addEventListener('cancel', () => { document.body.classList.remove('dialog-open'); focusBeforeDialog?.focus({ preventScroll: true }); });
+  });
+  $$('.open-preview').forEach(button => button.addEventListener('click', () => openPreview(relativePage(button.dataset.page), button.dataset.title)));
+
+  function animateSwitch(node) { if (reduced) return; node.classList.remove('switch-enter'); requestAnimationFrame(() => node.classList.add('switch-enter')); }
+  const tabs = {
+    cardapios: { phrase: 'Três cardápios. Uma ceia do seu jeito.', page: 'kit-09', floating: '3 cardápios' },
+    quantidades: { phrase: 'Quantidades para o seu número de convidados.', page: 'kit-19', floating: '4 a 12 pessoas' },
+    cronograma: { phrase: 'Do primeiro preparo à hora de servir.', page: 'kit-10', floating: 'Plano do dia 24' },
+    compras: { phrase: 'Listas prontas para 6 e 10 pessoas.', page: 'kit-22', floating: 'Lista pronta' },
+    orcamento: { phrase: 'Defina os gastos. Divida as tarefas.', page: 'kit-28', floating: 'Tarefas divididas' },
+  };
+  let activeTab = 'cardapios';
+  function showPage(page, title) {
+    $('#inside-image').src = relativePage(page); $('#inside-image').alt = `Página real: ${title}`;
+    $('#inside-enlarge').dataset.page = page; $('#inside-enlarge').dataset.title = title;
+    animateSwitch($('#inside-image'));
+  }
+  function showTab(key) {
+    const data = tabs[key]; if (!data) return;
+    activeTab = key;
+    $$('#inside-tabs button').forEach(button => { const selected = button.dataset.tab === key; button.setAttribute('aria-selected', selected); button.tabIndex = selected ? 0 : -1; if (selected) button.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduced ? 'instant' : 'smooth' }); });
+    $('#inside-panel').setAttribute('aria-labelledby', `tab-${key}`);
+    $('#inside-number').textContent = String(Object.keys(tabs).indexOf(key) + 1).padStart(2, '0');
+    $('#inside-phrase').textContent = data.phrase; $('#inside-float').textContent = data.floating;
+    $('#menu-choices').hidden = key !== 'cardapios'; $('#quantity-demo').hidden = key !== 'quantidades';
+    if (key === 'cardapios') $$('#menu-choices button').forEach(b => b.setAttribute('aria-pressed', b.dataset.menu === 'tradicional'));
+    showPage(data.page, data.phrase);
+  }
+  $$('#inside-tabs button').forEach(button => button.addEventListener('click', () => showTab(button.dataset.tab)));
+  $('#inside-tabs').addEventListener('keydown', event => {
+    const buttons = $$('#inside-tabs button'); const index = buttons.indexOf(document.activeElement); let next;
+    if (index < 0) return;
+    if (event.key === 'ArrowRight') next = (index + 1) % buttons.length;
+    if (event.key === 'ArrowLeft') next = (index - 1 + buttons.length) % buttons.length;
+    if (event.key === 'Home') next = 0; if (event.key === 'End') next = buttons.length - 1;
+    if (next !== undefined) { event.preventDefault(); buttons[next].focus(); showTab(buttons[next].dataset.tab); }
+  });
+  const menus = { tradicional: 'kit-09', economico: 'kit-12', pratico: 'kit-15' };
+  $$('#menu-choices button').forEach(button => button.addEventListener('click', () => { $$('#menu-choices button').forEach(b => b.setAttribute('aria-pressed', b === button)); showPage(menus[button.dataset.menu], `Cardápio ${button.textContent}`); }));
+  const quantities = { 4: ['1,4 kg', '240 g', '360 g'], 6: ['2,1 kg', '360 g', '540 g'], 8: ['2,8 kg', '480 g', '720 g'], 10: ['3,5 kg', '600 g', '900 g'], 12: ['4,2 kg', '720 g', '1.080 g'] };
+  $('#people').addEventListener('change', event => { ['#q-chicken', '#q-rice', '#q-veg'].forEach((selector, i) => $(selector).textContent = quantities[event.target.value][i]); animateSwitch($('.quantity-table')); });
+  // Deslizar o mockup também navega pelas abas; não depende de hover.
+  let tabTouchX;
+  $('#inside-panel').addEventListener('touchstart', e => { tabTouchX = e.touches[0].clientX; }, { passive: true });
+  $('#inside-panel').addEventListener('touchend', e => { if (tabTouchX === undefined || e.target.closest('select,button')) return; const dx = e.changedTouches[0].clientX - tabTouchX; if (Math.abs(dx) > 65) { const keys = Object.keys(tabs); const next = (keys.indexOf(activeTab) + (dx < 0 ? 1 : -1) + keys.length) % keys.length; showTab(keys[next]); } tabTouchX = undefined; }, { passive: true });
+
+  // Um único print real: sem duplicar para simular mais compradores.
+  const trackEl = $('#feedback-track');
+  let slide = 0, carouselTimer = null, carouselPaused = false;
+  const feedbacks = C.SHOW_TESTIMONIALS ? (C.TESTIMONIALS || []) : [];
+  let loadedFeedbacks = 0;
+  function moveCarousel(direction) {
+    if (feedbacks.length < 2) return;
+    slide = (slide + direction + feedbacks.length) % feedbacks.length;
+    const item = trackEl.children[slide];
+    trackEl.scrollTo({ left: item.offsetLeft - trackEl.offsetLeft - (trackEl.clientWidth - item.offsetWidth) / 2, behavior: reduced ? 'instant' : 'smooth' });
+  }
+  function pauseCarousel() { carouselPaused = true; clearInterval(carouselTimer); carouselTimer = null; }
+  function startCarousel() { if (reduced || carouselPaused || document.hidden || feedbacks.length < 2 || carouselTimer) return; carouselTimer = setInterval(() => moveCarousel(1), 5000); }
+  if (feedbacks.length) {
+    $('#depoimentos').hidden = false; trackEl.classList.toggle('single', feedbacks.length === 1);
+    $('#feedback-prev').disabled = feedbacks.length === 1; $('#feedback-next').disabled = feedbacks.length === 1;
+    feedbacks.forEach((src, i) => {
+      const item = document.createElement('article'); item.className = 'feedback-item';
+      const img = document.createElement('img'); img.src = src.startsWith('./') ? src : `./${src}`; img.alt = `Print real de feedback ${i + 1}, enviado sobre o kit`; img.loading = 'lazy'; img.width = 720; img.height = 1440;
+      const button = document.createElement('button'); button.className = 'ampliar'; button.textContent = 'Ampliar'; button.setAttribute('aria-label', `Ampliar feedback ${i + 1}`); button.addEventListener('click', () => { pauseCarousel(); openPreview(img.src, 'Feedback sobre o kit'); });
+      img.addEventListener('load', () => { loadedFeedbacks++; });
+      img.addEventListener('error', () => { item.hidden = true; if (![...trackEl.children].some(el => !el.hidden)) $('#depoimentos').hidden = true; });
+      item.append(img, button); trackEl.appendChild(item);
+    });
+    $('#feedback-prev').addEventListener('click', () => { pauseCarousel(); moveCarousel(-1); }); $('#feedback-next').addEventListener('click', () => { pauseCarousel(); moveCarousel(1); });
+    trackEl.addEventListener('pointerdown', pauseCarousel, { passive: true }); trackEl.addEventListener('touchstart', pauseCarousel, { passive: true }); trackEl.addEventListener('focusin', pauseCarousel);
+    trackEl.addEventListener('keydown', e => { if (['ArrowRight', 'ArrowLeft'].includes(e.key)) { e.preventDefault(); pauseCarousel(); moveCarousel(e.key === 'ArrowRight' ? 1 : -1); } });
+    startCarousel();
+  }
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { clearInterval(carouselTimer); carouselTimer = null; } else startCarousel(); });
+
+  // Progresso, parallax e saída: apenas depois de visita e leitura suficientes.
+  const visitStart = Date.now();
+  let maxRead = 0, maxY = 0, lastY = 0, lastScrollAt = Date.now(), scrollFrame = false;
+  function exitEligible(mobile) { return Date.now() - visitStart >= 15000 && maxRead >= (mobile ? .5 : .4) && !store.get('sessionStorage', 'ceia-exit-shown') && !document.querySelector('dialog[open]'); }
+  function tryExit(mobile) {
+    if (!exitEligible(mobile)) return false;
+    store.set('sessionStorage', 'ceia-exit-shown', '1');
+    const state = window.ceiaClock.getState();
+    $('#exit-text').textContent = state.phase === 'ended' ? `O plano pronto custa ${money.format(C.PRECO)}.` : `Faltam ${state.days} dias. O plano pronto custa ${money.format(C.PRECO)}.`;
+    openDialog($('#exit-dialog')); return true;
+  }
+  function onScroll() {
+    scrollFrame = false;
+    const y = scrollY, timestamp = Date.now(); const length = document.documentElement.scrollHeight - innerHeight;
+    const fraction = length > 0 ? Math.min(1, y / length) : 0;
+    maxRead = Math.max(maxRead, fraction); maxY = Math.max(maxY, y);
+    $('#reading-progress').style.transform = `scaleX(${fraction})`;
+    if (!reduced) $$('.parallax').forEach(el => el.style.setProperty('--parallax-y', `${Math.min(y, 900) * Number(el.dataset.parallax)}px`));
+    if (innerWidth < 1000 && lastY - y > 95 && timestamp - lastScrollAt < 220 && (lastY - y) / Math.max(timestamp - lastScrollAt, 1) > .6) tryExit(true);
+    lastY = y; lastScrollAt = timestamp;
+  }
+  addEventListener('scroll', () => { if (!scrollFrame) { scrollFrame = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  document.addEventListener('mouseout', e => { if (innerWidth >= 1000 && e.clientY <= 0 && !e.relatedTarget) tryExit(false); });
+  $('#exit-dismiss').addEventListener('click', () => closeDialog($('#exit-dialog')));
+
+  // Revelação e count-up só nos dois números dos cartões do hero.
+  if ('IntersectionObserver' in window) {
+    if (!reduced) {
+      const reveal = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.animate([{opacity:0,transform:'translateY(18px)'},{opacity:1,transform:'translateY(0)'}],{duration:550,delay:Number(e.target.dataset.revealDelay||0),easing:'cubic-bezier(.2,.7,.3,1)',fill:'backwards'}); reveal.unobserve(e.target); } }), { threshold: .05 });
+      $$('.reveal').forEach((el, i) => { el.dataset.revealDelay = String((i % 3) * 55); reveal.observe(el); });
+      const count = new IntersectionObserver(entries => entries.forEach(e => { if (!e.isIntersecting) return; count.unobserve(e.target); const target = Number(e.target.dataset.count), start = performance.now(); function frame(t) { const p = Math.min(1, (t - start) / 650), value=String(Math.max(1, Math.round(target * (1 - (1 - p) ** 3)))); if(e.target.textContent!==value)e.target.textContent=value; if (p < 1) requestAnimationFrame(frame); } requestAnimationFrame(frame); }), { threshold: .4 });
+      $$('[data-count]').forEach(el => count.observe(el));
+    }
+    const planObserver = new IntersectionObserver(entries => { if (!entries.some(e => e.isIntersecting)) return; if (!viewContentSent && consent !== 'essential') { track('ViewContent', { content_name: 'Ceia de Natal Sem Correria', value: C.PRECO, currency: 'BRL' }); viewContentSent = true; } if (!reduced) $('.plan-button').classList.add('nudge'); planObserver.disconnect(); }, { threshold: .15 }); planObserver.observe($('#plano'));
+  }
+  if (!reduced) $$('.tilt').forEach(el => {
+    function tilt(event) { const r = el.getBoundingClientRect(); el.style.setProperty('--tilt-x', `${-(event.clientY - r.top - r.height / 2) / r.height * 4}deg`); el.style.setProperty('--tilt-y', `${(event.clientX - r.left - r.width / 2) / r.width * 4}deg`); el.classList.add('is-tilting'); }
+    el.addEventListener('pointermove', tilt, { passive: true }); el.addEventListener('pointerdown', tilt, { passive: true });
+    ['pointerleave', 'pointerup', 'pointercancel'].forEach(type => el.addEventListener(type, () => el.classList.remove('is-tilting')));
+  });
+  $$('.faq-list details').forEach(details => $('summary', details).addEventListener('click', e => { if (!details.open || reduced) return; e.preventDefault(); $('.faq-answer', details).animate([{ opacity: 1, transform: 'translateY(0)' }, { opacity: 0, transform: 'translateY(-5px)' }], { duration: 150 }).finished.then(() => { details.open = false; }); }));
+
+  $('#cookie-banner').hidden = !!consent;
+  function chooseCookies(value) { consent = value; store.set('localStorage', 'ceia-cookie-choice', value); $('#cookie-banner').hidden = true; if (pixelReady && (!preview || C.ENABLE_PIXEL_IN_PREVIEW)) window.fbq?.('consent', value === 'accepted' ? 'grant' : 'revoke'); }
+  $('#cookie-accept').addEventListener('click', () => chooseCookies('accepted')); $('#cookie-essential').addEventListener('click', () => chooseCookies('essential')); $('#cookie-settings').addEventListener('click', () => { $('#cookie-banner').hidden = false; $('#cookie-essential').focus(); });
+  const privacy = `<p>Para informações sobre privacidade, fale com <a href="mailto:${C.SUPORTE}">${C.SUPORTE}</a>.</p><p>O Meta Pixel mede visitas, visualizações do plano e cliques de checkout. PageView ocorre ao carregar. “Só essenciais” interrompe eventos posteriores. Sua escolha é salva neste navegador.</p><p>Parâmetros de campanha utm_* e fbclid são repassados ao checkout da Cakto. Pagamentos e dados da compra são tratados no checkout.</p>`;
+  const terms = `<p>Kit digital em PDF: material principal, Mesa de Natal Encantadora e Réveillon Sem Correria. Versões digital e para imprimir.</p><p>${money.format(C.PRECO)} em pagamento único. Acesso após confirmação do pagamento. Reembolso integral em 7 dias, conforme art. 49 do CDC.</p><p>Quantidades e tempos são estimativas. Cardápios não adaptados a restrições. Imagens ilustrativas.</p>`;
+  $$('[data-legal]').forEach(button => button.addEventListener('click', () => { const type = button.dataset.legal; const url = type === 'privacy' ? C.PRIVACIDADE_URL : C.TERMOS_URL; if (url) { location.href = url; return; } $('#legal-title').textContent = type === 'privacy' ? 'Privacidade' : 'Termos'; $('#legal-content').innerHTML = type === 'privacy' ? privacy : terms; openDialog($('#legal-dialog')); }));
+
+  if (preview) window.__CEIA_DEBUG = { getEvents: () => [...events], getState: () => ceiaClock.getState(), getTimeSource: () => ceiaClock.getTimeSource(), showTab, quantities, checkoutURL: checkout.href, carousel: () => ({ count: feedbacks.length, slide, paused: carouselPaused, active: !!carouselTimer, loaded: loadedFeedbacks }), exit: () => ({ age: Date.now() - visitStart, maxRead, maxY, eligibleDesktop: exitEligible(false), eligibleMobile: exitEligible(true) }) };
+  }
+  requestAnimationFrame(() => requestAnimationFrame(initializeUI));
+})();

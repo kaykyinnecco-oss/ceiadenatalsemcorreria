@@ -1,0 +1,16 @@
+# Conteúdo pago: não enviar os PDFs nem suas pastas de origem.
+*.pdf
+/originais/
+/fontes-pdf/
+
+# Configurações locais e dependências.
+.env
+.env.*
+!.env.example
+node_modules/
+.vercel/
+
+# Evidências de revisão entregues separadamente, sem peso no site publicado.
+/prints/
+/tests/reports/
+*.log

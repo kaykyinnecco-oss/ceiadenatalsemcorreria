@@ -1,0 +1,26 @@
+# Arquivos referenciados
+
+- OK — ./app.js (18153 bytes)
+- OK — ./assets/cover-small.webp (58702 bytes)
+- OK — ./assets/cover.webp (169732 bytes)
+- OK — ./assets/favicon.svg (188 bytes)
+- OK — ./assets/fonts/dm-sans-latin.woff2 (36932 bytes)
+- OK — ./assets/fonts/fraunces-latin.woff2 (36620 bytes)
+- OK — ./assets/icons.svg (9485 bytes)
+- OK — ./assets/pages/kit-09.webp (21900 bytes)
+- OK — ./assets/pages/kit-10.webp (34432 bytes)
+- OK — ./assets/pages/kit-12.webp (22232 bytes)
+- OK — ./assets/pages/kit-15.webp (21452 bytes)
+- OK — ./assets/pages/kit-19.webp (23262 bytes)
+- OK — ./assets/pages/kit-21.webp (19270 bytes)
+- OK — ./assets/pages/kit-22.webp (34838 bytes)
+- OK — ./assets/pages/kit-28.webp (17916 bytes)
+- OK — ./assets/pages/kit-30.webp (15244 bytes)
+- OK — ./assets/pages/mesa-01.webp (86030 bytes)
+- OK — ./assets/pages/reveillon-01.webp (89896 bytes)
+- OK — ./calendar.js (10185 bytes)
+- OK — ./config.js (719 bytes)
+- OK — ./depoimentos/conversa-ceia.webp (114772 bytes)
+- OK — ./styles.css (29328 bytes)
+
+Arquivos faltantes: 0. Símbolos SVG faltantes: 0.

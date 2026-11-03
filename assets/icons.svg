@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <!-- Original 64 px sticker objects. Palette: forest, wine, gold and cream.
+       Shadows are offset geometry, without raster effects or SVG filters. -->
+  <symbol id="turkey" viewBox="0 0 64 64">
+    <path d="M9 47h48l-3 7H12Z" fill="#183D32" opacity=".18" transform="translate(2 2)"/>
+    <g stroke="#183D32" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M6 45h52l-5 8H11Z" fill="#FFFDF8"/>
+      <path d="M18 43c-8-1-10-8-6-14 3-5 7-6 13-4 5-9 15-12 24-5 8 6 8 16 2 23Z" fill="#B39459"/>
+      <path d="M22 43c-5-9 0-21 10-24 10-3 19 3 21 11 1 5-1 9-4 13Z" fill="#741F2D"/>
+      <path d="M23 39c4-4 9-4 14-1 3 2 4 6 1 8-5 3-12 1-15-1Z" fill="#B39459"/>
+      <path d="m39 39 8-5 5 6-8 5" fill="#B39459"/>
+      <path d="m49 35 5-5m-1-1 3 3m-1-4 3 3" fill="none" stroke="#FFFDF8" stroke-width="4"/>
+      <path d="m31 23-3 5m12-5-2 5" fill="none" stroke="#FFFDF8"/>
+      <path d="m10 46 4-6 5 6m27 0 4-5 5 5" fill="#183D32"/>
+    </g>
+  </symbol>
+  <symbol id="oven" viewBox="0 0 64 64">
+    <rect x="11" y="11" width="46" height="46" rx="7" fill="#183D32" opacity=".18"/>
+    <g stroke="#183D32" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="8" y="8" width="46" height="46" rx="7" fill="#B39459"/>
+      <path d="M8 23h46v25a6 6 0 0 1-6 6H14a6 6 0 0 1-6-6Z" fill="#183D32"/>
+      <rect x="15" y="29" width="32" height="18" rx="3" fill="#FFFDF8"/>
+      <path d="M19 35h24m-21 7h18" stroke="#B39459"/>
+      <path d="M16 16h2m7 0h2" stroke="#741F2D" stroke-width="4"/>
+      <circle cx="44" cy="14" r="11" fill="#741F2D"/>
+      <path d="M44 7v7l4 3" fill="none" stroke="#FFFDF8"/>
+      <path d="M18 54v3m26-3v3"/>
+    </g>
+  </symbol>
+  <symbol id="basket" viewBox="0 0 64 64">
+    <path d="M8 29h48l-6 27H14Z" fill="#183D32" opacity=".18" transform="translate(2 2)"/>
+    <g stroke="#183D32" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="m16 28 9-17h13l10 17" fill="none" stroke="#B39459" stroke-width="5"/>
+      <path d="M8 28h48l-5 25H13Z" fill="#B39459"/>
+      <path d="M7 26h50v8H7Z" fill="#741F2D"/>
+      <rect x="31" y="9" width="22" height="32" rx="3" fill="#FFFDF8" transform="rotate(8 42 25)"/>
+      <path d="m36 17 2 2 4-4m2 4h4m-13 7 2 2 4-4m2 4h4m-11 6h10" fill="none" stroke="#741F2D" stroke-width="2"/>
+      <path d="M19 39v8m9-8v8m9-3v3m9-3v3" stroke="#FFFDF8"/>
+    </g>
+  </symbol>
+  <symbol id="wallet" viewBox="0 0 64 64">
+    <path d="M12 19h42v35H12a6 6 0 0 1-6-6V23Z" fill="#183D32" opacity=".18" transform="translate(3 2)"/>
+    <g stroke="#183D32" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M12 13h35v15H12a7 7 0 0 1 0-14Z" fill="#B39459"/>
+      <path d="M12 21h40v32H12a6 6 0 0 1-6-6V20a7 7 0 0 0 6 1Z" fill="#741F2D"/>
+      <path d="M41 32h15v13H41a6.5 6.5 0 0 1 0-13Z" fill="#FFFDF8"/>
+      <path d="M44 38h2" stroke="#741F2D" stroke-width="4"/>
+      <circle cx="42" cy="13" r="10" fill="#B39459"/>
+      <path d="M42 7v12m4-10h-6a2 2 0 0 0 0 4h3a2 2 0 0 1 0 4h-6" fill="none" stroke="#FFFDF8" stroke-width="2"/>
+      <path d="M14 28v18h9" fill="none" stroke="#B39459" stroke-dasharray="2 4"/>
+    </g>
+  </symbol>
+  <symbol id="scale" viewBox="0 0 64 64">
+    <path d="m17 24-6 32h44l-6-32Z" fill="#183D32" opacity=".18" transform="translate(2 2)"/>
+    <g stroke="#183D32" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M12 11h40l-5 12H17Z" fill="#B39459"/>
+      <path d="M29 23h6v7h-6Z" fill="#741F2D"/>
+      <path d="M17 28h30l6 26H11Z" fill="#183D32"/>
+      <path d="M20 34h24l3 12H17Z" fill="#FFFDF8"/>
+      <path d="m32 44 6-7" stroke="#741F2D" stroke-width="3"/>
+      <path d="M24 38h1m6-1h1m7 1h1" stroke="#B39459"/>
+      <path d="M22 54v3m20-3v3"/>
+    </g>
+  </symbol>
+  <symbol id="calendar" viewBox="0 0 64 64">
+    <rect x="10" y="14" width="43" height="43" rx="6" fill="#183D32" opacity=".18"/>
+    <g stroke="#183D32" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="7" y="11" width="43" height="43" rx="6" fill="#FFFDF8"/>
+      <path d="M7 17a6 6 0 0 1 6-6h31a6 6 0 0 1 6 6v9H7Z" fill="#741F2D"/>
+      <path d="M17 7v11m23-11v11" stroke="#B39459" stroke-width="4"/>
+      <path d="M16 34h7m8 0h7m-22 9h7m8 0h7" stroke="#B39459" stroke-width="4"/>
+      <path d="m44 38 1-7 5 3 5-6 1 8 6 2-6 5-1 7-5-5-7 3 2-7Z" fill="#183D32"/>
+      <path d="m48 43 9-8" stroke="#B39459" stroke-width="1.5"/>
+      <circle cx="44" cy="48" r="3" fill="#741F2D"/>
+      <circle cx="50" cy="51" r="3" fill="#741F2D"/>
+    </g>
+  </symbol>
+  <symbol id="cloche" viewBox="0 0 64 64">
+    <path d="M7 47h50v6H7Z" fill="#183D32" opacity=".18" transform="translate(2 2)"/>
+    <g stroke="#183D32" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M10 43a22 22 0 0 1 44 0Z" fill="#183D32"/>
+      <path d="M27 15h10v7H27Z" fill="#B39459"/>
+      <path d="M8 43h48v7H8Z" fill="#B39459"/>
+      <path d="M4 50h56l-6 6H10Z" fill="#741F2D"/>
+      <path d="M18 36c1-5 4-8 8-10" stroke="#FFFDF8" stroke-width="3" fill="none"/>
+      <path d="M46 7v5m7 2 3-3" stroke="#B39459"/>
+    </g>
+  </symbol>
+  <symbol id="printer" viewBox="0 0 64 64">
+    <rect x="8" y="23" width="49" height="27" rx="5" fill="#183D32" opacity=".18" transform="translate(2 2)"/>
+    <g stroke="#183D32" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M17 7h29v22H17Z" fill="#FFFDF8"/>
+      <path d="M8 22h48v25H8a3 3 0 0 1-3-3V27a5 5 0 0 1 3-5Z" fill="#183D32"/>
+      <path d="M14 34h36v8H14Z" fill="#741F2D"/>
+      <path d="M18 37h27v19H18Z" fill="#FFFDF8"/>
+      <path d="M24 44h15m-15 6h10" stroke="#B39459"/>
+      <path d="M22 13h19m-19 6h13" stroke="#B39459"/>
+      <path d="M45 28h3" stroke="#B39459" stroke-width="4"/>
+    </g>
+  </symbol>
+  <symbol id="phone" viewBox="0 0 64 64">
+    <rect x="17" y="6" width="32" height="53" rx="8" fill="#183D32" opacity=".18" transform="translate(2 2)"/>
+    <g stroke="#183D32" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="14" y="4" width="32" height="53" rx="8" fill="#183D32"/>
+      <rect x="18" y="9" width="24" height="40" rx="4" fill="#FFFDF8"/>
+      <path d="M25 9h10v4H25Z" fill="#183D32"/>
+      <path d="M23 21h14v9H23Z" fill="#B39459"/>
+      <path d="m25 25 3 2 6-4" fill="none" stroke="#741F2D"/>
+      <path d="M23 36h14m-14 6h9" stroke="#741F2D"/>
+      <path d="M27 53h6" stroke="#B39459"/>
+    </g>
+  </symbol>
+  <symbol id="arrow" viewBox="0 0 64 64">
+    <path d="M9 28h29L28 18l8-8 23 23-23 23-8-8 10-10H9Z" fill="#183D32" opacity=".18" transform="translate(1 1)"/>
+    <path d="M7 25h29L26 15l7-7 23 23-23 23-7-7 10-10H7Z" fill="#B39459" stroke="#183D32" stroke-width="2.5" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="check" viewBox="0 0 64 64">
+    <path d="m7 32 10-10 11 11L48 9l10 9-29 36Z" fill="#183D32" opacity=".18" transform="translate(1 2)"/>
+    <path d="m5 29 10-9 11 11L46 7l10 9-29 36Z" fill="#B39459" stroke="#183D32" stroke-width="2.5" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="pix" viewBox="0 0 64 64">
+    <path d="m33 6 27 27-27 27L6 33Z" fill="#183D32" opacity=".18"/>
+    <path d="m31 3 27 27-27 27L4 30Z" fill="#183D32" stroke="#183D32" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="m15 22 8 1 8 8 8-8 8-1M15 40l8-1 8-8 8 8 8 1" fill="none" stroke="#B39459" stroke-width="4" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="card" viewBox="0 0 64 64">
+    <rect x="7" y="15" width="52" height="36" rx="6" fill="#183D32" opacity=".18" transform="translate(1 2)"/>
+    <g stroke="#183D32" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="4" y="12" width="52" height="36" rx="6" fill="#FFFDF8"/>
+      <path d="M4 21h52v9H4Z" fill="#741F2D"/>
+      <rect x="12" y="35" width="12" height="7" rx="2" fill="#B39459"/>
+      <path d="M39 38h8" stroke="#B39459"/>
+    </g>
+  </symbol>
+  <symbol id="seal" viewBox="0 0 64 64">
+    <path d="m32 4 9 5 10 1 3 10 7 8-4 10-1 11-11 4-9 7-10-5-11-1-3-11-7-9 4-10 1-10 11-4Z" fill="#183D32" opacity=".18" transform="translate(1 2)"/>
+    <path d="m30 2 9 5 10 1 3 10 7 8-4 10-1 11-11 4-9 7-10-5-11-1-3-11-7-9 4-10 1-10 11-4Z" fill="#B39459" stroke="#183D32" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="m18 29 9 8 17-19" fill="none" stroke="#741F2D" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="close" viewBox="0 0 64 64">
+    <path d="m17 10 15 15 15-15 8 8-15 15 15 15-8 8-15-15-15 15-8-8 15-15L9 18Z" fill="#183D32" opacity=".18" transform="translate(1 1)"/>
+    <path d="m15 8 15 15L45 8l8 8-15 15 15 15-8 8-15-15-15 15-8-8 15-15L7 16Z" fill="#741F2D" stroke="#183D32" stroke-width="2.5" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="chevron-left" viewBox="0 0 64 64">
+    <path d="m41 8 10 10-15 15 15 15-10 10-25-25Z" fill="#183D32" opacity=".18" transform="translate(1 1)"/>
+    <path d="m39 6 10 10-15 15 15 15-10 10-25-25Z" fill="#B39459" stroke="#183D32" stroke-width="2.5" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="chevron-right" viewBox="0 0 64 64">
+    <path d="m25 8 25 25-25 25-10-10 15-15-15-15Z" fill="#183D32" opacity=".18" transform="translate(1 1)"/>
+    <path d="m23 6 25 25-25 25-10-10 15-15-15-15Z" fill="#B39459" stroke="#183D32" stroke-width="2.5" stroke-linejoin="round"/>
+  </symbol>
+</svg>
