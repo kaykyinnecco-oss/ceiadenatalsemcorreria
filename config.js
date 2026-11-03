@@ -1,6 +1,6 @@
 // DADOS DA OFERTA — edite aqui, sem build.
 window.CEIA_CONFIG = Object.freeze({
-  PRECO: 19.00,
+  PRECO: 19.99,
   CHECKOUT: 'https://pay.cakto.com.br/pabj6or_1277278',
   PIXEL_META: '902695826167879',
   SUPORTE: 'empresakagency@gmail.com',

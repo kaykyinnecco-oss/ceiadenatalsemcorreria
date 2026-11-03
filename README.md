@@ -18,7 +18,7 @@ Edite config.js. Não coloque credenciais nesse arquivo público.
 
 | Variável | Uso |
 | --- | --- |
-| PRECO | R$ 19,00; preço sem animação |
+| PRECO | R$ 19,99; preço sem animação |
 | CHECKOUT | Checkout Cakto da oferta |
 | PIXEL_META | Novo ID: 902695826167879; vazio desativa eventos e avisa no console |
 | SUPORTE | E-mail mostrado no rodapé e nos termos |
