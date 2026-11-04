@@ -1,13 +1,15 @@
-# Arquivos da revisão
+# Arquivos públicos do projeto
 
-Relação pública preparada para o commit autorizado. PDFs pagos, originais, conversões privadas, prints e relatórios de teste estão fora do envio.
+PDFs pagos, originais, prints, .env, node_modules e ZIPs ficam fora do Git.
 
 - `.gitattributes`
 - `.gitignore`
 - `ARQUIVOS-PARA-ENVIO.md`
 - `ARQUIVOS-REFERENCIADOS.md`
+- `DEPOIMENTOS.md`
 - `README-PENDENCIAS.md`
 - `README.md`
+- `VERIFICACAO-MARQUEE.md`
 - `VERIFICACAO.md`
 - `app.js`
 - `assets/beneficios/cardapios-detalhe.webp`
@@ -20,6 +22,12 @@ Relação pública preparada para o commit autorizado. PDFs pagos, originais, co
 - `assets/cover-small.webp`
 - `assets/cover.webp`
 - `assets/favicon.svg`
+- `assets/feedbacks/feedback-01.webp`
+- `assets/feedbacks/feedback-02.webp`
+- `assets/feedbacks/feedback-03.webp`
+- `assets/feedbacks/feedback-04.webp`
+- `assets/feedbacks/feedback-05.webp`
+- `assets/feedbacks/manifest.json`
 - `assets/fonts/DM-Sans-OFL.txt`
 - `assets/fonts/Fraunces-OFL.txt`
 - `assets/fonts/dm-sans-latin.woff2`
@@ -56,6 +64,12 @@ Relação pública preparada para o commit autorizado. PDFs pagos, originais, co
 - `assets/verified.svg`
 - `calendar.js`
 - `config.js`
+- `depoimentos/feedback-01.webp`
+- `depoimentos/feedback-02.webp`
+- `depoimentos/feedback-03.webp`
+- `depoimentos/feedback-04.webp`
+- `depoimentos/feedback-05.webp`
+- `feedbacks.js`
 - `index.html`
 - `popup.js`
 - `scripts/audit-files.cjs`
@@ -64,10 +78,13 @@ Relação pública preparada para o commit autorizado. PDFs pagos, originais, co
 - `scripts/qa-conversion.cjs`
 - `scripts/qa-final-interactions.cjs`
 - `scripts/qa-final.cjs`
+- `scripts/qa-marquee-navigation.cjs`
+- `scripts/qa-marquee.cjs`
 - `scripts/qa-revision.cjs`
 - `scripts/qa-visibility.cjs`
 - `scripts/runtime.cjs`
 - `scripts/sync-critical.cjs`
+- `scripts/verify-marquee-production.cjs`
 - `styles.css`
 - `tests/calendar.test.cjs`
 - `vercel.json`

@@ -1,0 +1,12 @@
+const {chromium}=require('./runtime.cjs').dependency('playwright');
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const out=path.resolve(__dirname,'../prints/marquee'),base=process.env.CEIA_QA_URL||'http://127.0.0.1:8765';
+(async()=>{const b=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'}),report=[];
+try{for(const width of [390,1440]){const c=await b.newContext({viewport:{width,height:844},reducedMotion:'reduce'}),p=await c.newPage();await p.clock.install({time:new Date('2026-11-04T15:00:00Z')});await p.goto(base,{waitUntil:'networkidle'});await p.waitForFunction(()=>typeof window.__CEIA_DEBUG?.exit==='function');await p.locator('#cookie-essential').click();
+await p.locator('#bar-button').click();await p.waitForTimeout(120);assert.equal(await p.evaluate(()=>location.hash),'#plano');assert((await p.locator('#plano').boundingBox()).y>=0);assert((await p.evaluate(()=>__CEIA_DEBUG.getEvents().map(e=>e.event))).includes('ViewContent'));
+assert.equal(await p.locator('.bonuses .section-button').getAttribute('href'),'#plano');await p.locator('.bonuses .section-button').click();assert.equal(await p.evaluate(()=>location.hash),'#plano');
+await p.clock.runFor(width<1000?21000:16000);
+if(width<1000){await p.evaluate(()=>scrollTo({top:(document.documentElement.scrollHeight-innerHeight)*.6,behavior:'instant'}));await p.clock.runFor(32);await p.waitForFunction(()=>__CEIA_DEBUG.exit().maxRead>.59);await p.evaluate(()=>scrollBy({top:-320,behavior:'instant'}));await p.clock.runFor(40);}else{await p.evaluate(()=>scrollTo({top:(document.documentElement.scrollHeight-innerHeight)*.4,behavior:'instant'}));await p.clock.runFor(32);await p.waitForFunction(()=>__CEIA_DEBUG.exit().maxRead>.39);await p.evaluate(()=>document.dispatchEvent(new MouseEvent('mouseout',{bubbles:true,clientY:-1,relatedTarget:null})));}
+await p.waitForFunction(()=>document.querySelector('#exit-dialog').open);await p.screenshot({path:path.join(out,`popup-apos-reordenar-${width}.png`)});await p.keyboard.press('Escape');assert(!(await p.locator('#exit-dialog').evaluate(e=>e.open)));report.push({width,barAnchor:true,bonusAnchor:true,viewContent:true,exitPopup:true});await c.close();}
+fs.writeFileSync(path.join(out,'navegacao.json'),JSON.stringify({passed:true,report},null,2));console.log(JSON.stringify(report));
+}finally{await b.close()}})().catch(e=>{console.error(e);process.exitCode=1});

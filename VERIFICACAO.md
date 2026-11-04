@@ -1,4 +1,4 @@
-# Verificação da última rodada — 04/11/2026
+# Verificação da rodada anterior — 04/11/2026 (antes do marquee)
 
 Base: git pull --rebase origin main, commit 82aa3dfe04959ab39aa8da2172d5e9b9a7b4e0d7. Somente oferta, mockups, pagamentos, selo, cookies, pop-up, feedbacks e documentação desses pontos foram alterados.
 

@@ -9,8 +9,50 @@ window.CEIA_CONFIG = Object.freeze({
   ALVO_CEIA: '2026-12-24T20:00:00-03:00',
   ALVO_REVEILLON: '2026-12-31T23:59:59-03:00',
   FUSO: 'America/Sao_Paulo',
-  SHOW_TESTIMONIALS: false, // Anexos desta rodada contêm sobrenomes completos; não publicar.
-  TESTIMONIALS: [],
+  SHOW_TESTIMONIALS: true, // Nomes/sobrenomes autorizados expressamente nesta rodada.
+  TESTIMONIALS: [
+    {
+        "thumb": "./depoimentos/feedback-01.webp",
+        "full": "./assets/feedbacks/feedback-01.webp",
+        "width": 320,
+        "height": 640,
+        "fullWidth": 900,
+        "fullHeight": 1800
+    },
+    {
+        "thumb": "./depoimentos/feedback-02.webp",
+        "full": "./assets/feedbacks/feedback-02.webp",
+        "width": 320,
+        "height": 640,
+        "fullWidth": 900,
+        "fullHeight": 1800
+    },
+    {
+        "thumb": "./depoimentos/feedback-03.webp",
+        "full": "./assets/feedbacks/feedback-03.webp",
+        "width": 320,
+        "height": 640,
+        "fullWidth": 900,
+        "fullHeight": 1800
+    },
+    {
+        "thumb": "./depoimentos/feedback-04.webp",
+        "full": "./assets/feedbacks/feedback-04.webp",
+        "width": 320,
+        "height": 640,
+        "fullWidth": 900,
+        "fullHeight": 1800
+    },
+    {
+        "thumb": "./depoimentos/feedback-05.webp",
+        "full": "./assets/feedbacks/feedback-05.webp",
+        "width": 320,
+        "height": 640,
+        "fullWidth": 900,
+        "fullHeight": 1800
+    }
+],
+  FEEDBACK_SPEED: 35, // Velocidade do marquee em pixels por segundo.
   PAYMENT_BRANDS: ['pix', 'visa', 'mastercard', 'elo'], // Aceitação confirmada pelo responsável.
   CONSENT_MODE: 'notice',
   ENABLE_PIXEL_IN_PREVIEW: false, // Evita eventos de teste no pixel real.

@@ -132,45 +132,7 @@
   $('#inside-panel').addEventListener('touchstart', e => { tabTouchX = e.touches[0].clientX; }, { passive: true });
   $('#inside-panel').addEventListener('touchend', e => { if (tabTouchX === undefined || e.target.closest('select,button')) return; const dx = e.changedTouches[0].clientX - tabTouchX; if (Math.abs(dx) > 65) { const keys = Object.keys(tabs); const next = (keys.indexOf(activeTab) + (dx < 0 ? 1 : -1) + keys.length) % keys.length; showTab(keys[next]); } tabTouchX = undefined; }, { passive: true });
 
-  // Cada print fornecido aparece uma vez, sem duplicar relatos.
-  const trackEl = $('#feedback-track');
-  let slide = 0, carouselTimer = null, carouselPaused = false;
-  const feedbacks = C.SHOW_TESTIMONIALS ? (C.TESTIMONIALS || []) : [];
-  let loadedFeedbacks = 0;
-  function moveCarousel(direction) {
-    if (feedbacks.length < 3) return;
-    const positions = Math.max(1, feedbacks.length - (innerWidth >= 768 ? 3 : 1) + 1);
-    slide = (slide + direction + positions) % positions;
-    const item = trackEl.children[slide];
-    const left = trackEl.scrollLeft + item.getBoundingClientRect().left - trackEl.getBoundingClientRect().left;
-    trackEl.scrollTo({ left, behavior: reduced ? 'instant' : 'smooth' });
-    $$('.feedback-dots button').forEach((b,i) => b.setAttribute('aria-current', String(i === slide)));
-  }
-  function pauseCarousel() { carouselPaused = true; clearInterval(carouselTimer); carouselTimer = null; }
-  function startCarousel() { if (reduced || carouselPaused || document.hidden || feedbacks.length < 3 || carouselTimer) return; carouselTimer = setInterval(() => moveCarousel(1), 5000); }
-  if (feedbacks.length) {
-    $('#depoimentos').hidden = false; trackEl.classList.toggle('single', feedbacks.length === 1);
-    const compactFeedback = feedbacks.length < 3;
-    $('#depoimentos').classList.toggle('feedbacks-compact', compactFeedback);
-    $('#depoimentos h2').textContent = feedbacks.length === 1 ? 'Feedback de quem já recebeu' : 'Feedbacks de quem já recebeu';
-
-    $('.carousel-controls').hidden = feedbacks.length < 3;
-    $('#feedback-prev').disabled = feedbacks.length < 3; $('#feedback-next').disabled = feedbacks.length < 3;
-    feedbacks.forEach((src, i) => {
-      const item = document.createElement('article'); item.className = 'feedback-item';
-      const img = document.createElement('img'); img.src = src.startsWith('./') ? src : `./${src}`; img.alt = 'Conversa de WhatsApp com feedback de cliente'; img.loading = 'lazy'; img.decoding = 'async'; img.width = 887; img.height = 1774;
-      const button = document.createElement('button'); button.className = 'ampliar'; button.textContent = 'Ampliar'; button.setAttribute('aria-label', `Ampliar feedback ${i + 1}`); button.addEventListener('click', () => { pauseCarousel(); openPreview(img.src, 'Feedback sobre o kit'); });
-      img.addEventListener('load', () => { loadedFeedbacks++; });
-      img.addEventListener('error', () => { item.hidden = true; if (![...trackEl.children].some(el => !el.hidden)) $('#depoimentos').hidden = true; });
-      item.append(img, button); trackEl.appendChild(item);
-      if (!compactFeedback && i <= feedbacks.length - (innerWidth >= 768 ? 3 : 1)) { const dot = document.createElement('button'); dot.setAttribute('aria-label', `Ver feedback ${i+1}`); dot.setAttribute('aria-current', String(i === 0)); dot.addEventListener('click', () => { pauseCarousel(); moveCarousel(i-slide); }); $('.feedback-dots').appendChild(dot); }
-    });
-    $('#feedback-prev').addEventListener('click', () => { pauseCarousel(); moveCarousel(-1); }); $('#feedback-next').addEventListener('click', () => { pauseCarousel(); moveCarousel(1); });
-    trackEl.addEventListener('pointerdown', pauseCarousel, { passive: true }); trackEl.addEventListener('touchstart', pauseCarousel, { passive: true }); trackEl.addEventListener('focusin', pauseCarousel);
-    trackEl.addEventListener('keydown', e => { if (['ArrowRight', 'ArrowLeft'].includes(e.key)) { e.preventDefault(); pauseCarousel(); moveCarousel(e.key === 'ArrowRight' ? 1 : -1); } });
-    startCarousel();
-  }
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { clearInterval(carouselTimer); carouselTimer = null; } else startCarousel(); });
+  const feedbackController = window.initCeiaFeedbacks({ C, openDialog, closeDialog });
 
   // Progresso e parallax usam um único frame por rolagem.
   let scrollFrame = false;
@@ -242,7 +204,7 @@
   const terms = `<p>Kit digital em PDF: material principal, Mesa de Natal Encantadora e Réveillon Sem Correria. Versões digital e para imprimir.</p><p>${money.format(C.PRECO)} em pagamento único. Acesso após confirmação do pagamento. Reembolso integral em 7 dias, conforme art. 49 do CDC.</p><p>Quantidades e tempos são estimativas. Cardápios não adaptados a restrições. Imagens ilustrativas.</p>`;
   $$('[data-legal]').forEach(button => button.addEventListener('click', () => { const type = button.dataset.legal; const url = type === 'privacy' ? C.PRIVACIDADE_URL : C.TERMOS_URL; if (url) { location.href = url; return; } $('#legal-title').textContent = type === 'privacy' ? 'Privacidade' : 'Termos'; $('#legal-content').innerHTML = type === 'privacy' ? privacy : terms; openDialog($('#legal-dialog')); }));
 
-  if (preview) window.__CEIA_DEBUG = { getEvents: () => [...events], getState: () => ceiaClock.getState(), getTimeSource: () => ceiaClock.getTimeSource(), showTab, quantities, checkoutURL: checkout.href, carousel: () => ({ count: feedbacks.length, slide, paused: carouselPaused, active: !!carouselTimer, loaded: loadedFeedbacks }) };
+  if (preview) window.__CEIA_DEBUG = { getEvents: () => [...events], getState: () => ceiaClock.getState(), getTimeSource: () => ceiaClock.getTimeSource(), showTab, quantities, checkoutURL: checkout.href, carousel: () => feedbackController.getState() };
   }
   requestAnimationFrame(() => requestAnimationFrame(initializeUI));
 })();

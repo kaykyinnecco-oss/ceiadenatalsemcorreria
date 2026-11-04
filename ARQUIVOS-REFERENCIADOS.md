@@ -1,6 +1,6 @@
 # Arquivos referenciados
 
-- OK — ./app.js (22050 bytes)
+- OK — ./app.js (18289 bytes)
 - OK — ./assets/beneficios/cardapios-detalhe.webp (3638 bytes)
 - OK — ./assets/beneficios/cronograma-detalhe.webp (4956 bytes)
 - OK — ./assets/beneficios/digital-detalhe.webp (3772 bytes)
@@ -10,6 +10,11 @@
 - OK — ./assets/beneficios/reveillon-detalhe.webp (3878 bytes)
 - OK — ./assets/cover.webp (169732 bytes)
 - OK — ./assets/favicon.svg (188 bytes)
+- OK — ./assets/feedbacks/feedback-01.webp (91104 bytes)
+- OK — ./assets/feedbacks/feedback-02.webp (115714 bytes)
+- OK — ./assets/feedbacks/feedback-03.webp (82268 bytes)
+- OK — ./assets/feedbacks/feedback-04.webp (151000 bytes)
+- OK — ./assets/feedbacks/feedback-05.webp (142410 bytes)
 - OK — ./assets/fonts/dm-sans-latin.woff2 (36932 bytes)
 - OK — ./assets/fonts/fraunces-latin.woff2 (36620 bytes)
 - OK — ./assets/garantia-7-dias-compacta.svg (2137 bytes)
@@ -39,8 +44,14 @@
 - OK — ./assets/previews/kit-21.webp (11112 bytes)
 - OK — ./assets/verified.svg (1039 bytes)
 - OK — ./calendar.js (10105 bytes)
-- OK — ./config.js (1094 bytes)
+- OK — ./config.js (2282 bytes)
+- OK — ./depoimentos/feedback-01.webp (21318 bytes)
+- OK — ./depoimentos/feedback-02.webp (24332 bytes)
+- OK — ./depoimentos/feedback-03.webp (19114 bytes)
+- OK — ./depoimentos/feedback-04.webp (24758 bytes)
+- OK — ./depoimentos/feedback-05.webp (24724 bytes)
+- OK — ./feedbacks.js (8811 bytes)
 - OK — ./popup.js (4173 bytes)
-- OK — ./styles.css (43283 bytes)
+- OK — ./styles.css (46431 bytes)
 
 Arquivos faltantes: 0. Símbolos SVG faltantes: 0.
