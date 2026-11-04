@@ -1,0 +1,62 @@
+[
+  {
+    "order": 1,
+    "thumbnail": "./depoimentos/feedback-01.webp",
+    "thumbnailWidth": 320,
+    "thumbnailHeight": 640,
+    "thumbnailQuality": 85,
+    "thumbnailBytes": 21318,
+    "full": "./assets/feedbacks/feedback-01.webp",
+    "fullWidth": 900,
+    "fullHeight": 1800,
+    "fullQuality": 85
+  },
+  {
+    "order": 2,
+    "thumbnail": "./depoimentos/feedback-02.webp",
+    "thumbnailWidth": 320,
+    "thumbnailHeight": 640,
+    "thumbnailQuality": 80,
+    "thumbnailBytes": 24332,
+    "full": "./assets/feedbacks/feedback-02.webp",
+    "fullWidth": 900,
+    "fullHeight": 1800,
+    "fullQuality": 85
+  },
+  {
+    "order": 3,
+    "thumbnail": "./depoimentos/feedback-03.webp",
+    "thumbnailWidth": 320,
+    "thumbnailHeight": 640,
+    "thumbnailQuality": 85,
+    "thumbnailBytes": 19114,
+    "full": "./assets/feedbacks/feedback-03.webp",
+    "fullWidth": 900,
+    "fullHeight": 1800,
+    "fullQuality": 85
+  },
+  {
+    "order": 4,
+    "thumbnail": "./depoimentos/feedback-04.webp",
+    "thumbnailWidth": 320,
+    "thumbnailHeight": 640,
+    "thumbnailQuality": 42,
+    "thumbnailBytes": 24758,
+    "full": "./assets/feedbacks/feedback-04.webp",
+    "fullWidth": 900,
+    "fullHeight": 1800,
+    "fullQuality": 85
+  },
+  {
+    "order": 5,
+    "thumbnail": "./depoimentos/feedback-05.webp",
+    "thumbnailWidth": 320,
+    "thumbnailHeight": 640,
+    "thumbnailQuality": 55,
+    "thumbnailBytes": 24724,
+    "full": "./assets/feedbacks/feedback-05.webp",
+    "fullWidth": 900,
+    "fullHeight": 1800,
+    "fullQuality": 85
+  }
+]
