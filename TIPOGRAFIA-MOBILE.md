@@ -5,7 +5,7 @@ Medidas de getComputedStyle em 360×740, 390×844, 412×915 e 430×932. Cada cé
 | Elemento / seletor | 360 px | 390 px | 412 px | 430 px | Line-height antes → depois | Letter-spacing antes → depois |
 | --- | --- | --- | --- | --- | --- | --- |
 | .offer-ribbon | 8px → 12px | 8px → 12px | 8px → 12px | 8px → 12px | 12.8px → 14.4px | 0.24px → normal |
-| .eyebrow | 9px → 9px | 9px → 9px | 9px → 9px | 9px → 9px | 13.5px → 13.5px | 1.26px → 1.26px |
+| .faq .eyebrow (texto visível) | 10px → 12px | 10px → 12px | 10px → 12px | 10px → 12px | 15px → 18px | 1.4px → 1.68px |
 | .offer-copy>.button | 14px → 15px | 14px → 15px | 14px → 15px | 14px → 15px | 18.2px → 19.5px | normal → normal |
 | .popup-assurance | 11px → 12px | 11px → 12px | 11px → 12px | 11px → 12px | 16.5px → 18px | normal → normal |
 | .cookie-banner>div>button | 11px → 12px | 11px → 12px | 11px → 12px | 11px → 12px | 17.6px → 32px | normal → normal |
