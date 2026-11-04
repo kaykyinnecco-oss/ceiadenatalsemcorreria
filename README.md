@@ -66,11 +66,12 @@ node --test tests/calendar.test.cjs
 node scripts/audit-files.cjs
 node scripts/qa-revision.cjs
 node scripts/qa-conversion.cjs
+node scripts/qa-visibility.cjs
 node scripts/capture-revision.cjs
 node scripts/capture-details.cjs
 ~~~
 
-Os quatro últimos scripts exigem Playwright e Chrome. Instale Playwright no ambiente de desenvolvimento ou defina CEIA_RUNTIME_MODULES com o diretório de módulos. CEIA_CHROME_PATH permite indicar o executável do Chrome. Os testes não são dependências de produção.
+Os cinco últimos scripts exigem Playwright e Chrome. Instale Playwright no ambiente de desenvolvimento ou defina CEIA_RUNTIME_MODULES com o diretório de módulos. CEIA_CHROME_PATH permite indicar o executável do Chrome. Os testes não são dependências de produção.
 
 Depois de editar as regras entre CRITICAL START e CRITICAL END de styles.css, execute node scripts/sync-critical.cjs para atualizar o CSS inline versionado em index.html. Isso é manutenção do código; a Vercel não executa build.
 
@@ -86,6 +87,6 @@ Os ícones estão em assets/icons-v2.svg, com URL nova para evitar o cache da ve
 
 ## Revisão de marcas e miniaturas
 
-Origens oficiais e regras: assets/pagamentos/FONTES.md. As sete miniaturas reais ficam em assets/beneficios, com até 2,55 KB por arquivo. O selo próprio está em assets/verified.svg. Previews recortados ficam em assets/previews; as páginas originais de assets/pages são preservadas para os mockups do hero e para ampliação. O preço segue R$ 19,99 e o pixel não foi alterado.
+Origens oficiais e regras: assets/pagamentos/FONTES.md. As sete miniaturas reais ficam em assets/beneficios, com até 5 KB por arquivo e 56×72 px no layout. O selo próprio está em assets/verified.svg. Previews recortados ficam em assets/previews; as páginas originais de assets/pages são preservadas para os mockups do hero e para ampliação. O preço segue R$ 19,99 e o pixel não foi alterado.
 
 A pasta de depoimentos tem apenas o terceiro anexo da rodada atual, convertido integralmente para WebP de qualidade 85, em 887×1774 px. Os demais aguardam tarja. A seção some quando a lista está vazia; não se duplicam prints para simular mais depoimentos.

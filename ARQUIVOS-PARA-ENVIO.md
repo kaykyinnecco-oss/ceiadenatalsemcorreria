@@ -2,7 +2,7 @@
 
 Envio à main autorizado pelo responsável. Código estático, assets públicos e ferramentas de QA. PDFs pagos, originais, .env, node_modules, ZIPs, prints e relatórios gerados não entram no envio.
 
-Total: 65 arquivos no projeto.
+Total: 66 arquivos no projeto.
 
 - `.gitattributes`
 - `.gitignore`
@@ -12,13 +12,13 @@ Total: 65 arquivos no projeto.
 - `README.md`
 - `VERIFICACAO.md`
 - `app.js`
-- `assets/beneficios/cardapios.webp`
-- `assets/beneficios/cronograma.webp`
-- `assets/beneficios/digital.webp`
-- `assets/beneficios/mesa.webp`
-- `assets/beneficios/orcamento.webp`
-- `assets/beneficios/quantidades.webp`
-- `assets/beneficios/reveillon.webp`
+- `assets/beneficios/cardapios-detalhe.webp`
+- `assets/beneficios/cronograma-detalhe.webp`
+- `assets/beneficios/digital-detalhe.webp`
+- `assets/beneficios/mesa-detalhe.webp`
+- `assets/beneficios/orcamento-detalhe.webp`
+- `assets/beneficios/quantidades-detalhe.webp`
+- `assets/beneficios/reveillon-detalhe.webp`
 - `assets/cover-small.webp`
 - `assets/cover.webp`
 - `assets/favicon.svg`
@@ -33,7 +33,7 @@ Total: 65 arquivos no projeto.
 - `assets/pagamentos/FONTES.md`
 - `assets/pagamentos/elo.svg`
 - `assets/pagamentos/mastercard.svg`
-- `assets/pagamentos/pix.svg`
+- `assets/pagamentos/pix-completo.svg`
 - `assets/pagamentos/visa.svg`
 - `assets/pages/kit-09.webp`
 - `assets/pages/kit-10.webp`
@@ -64,6 +64,7 @@ Total: 65 arquivos no projeto.
 - `scripts/capture-revision.cjs`
 - `scripts/qa-conversion.cjs`
 - `scripts/qa-revision.cjs`
+- `scripts/qa-visibility.cjs`
 - `scripts/runtime.cjs`
 - `scripts/sync-critical.cjs`
 - `styles.css`

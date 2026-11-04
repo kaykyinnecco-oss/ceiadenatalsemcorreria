@@ -35,3 +35,24 @@ main>section:not(.hero){contain:layout style}
 @media(min-width:1000px){.guarantee .payments{margin-left:0}.bonus-copy h3{min-height:0}}
 
 @media(min-width:400px) and (max-width:599px){.offer-copy .payments-row{gap:8px}}
+
+/* Conteúdo de entrada sempre legível; o JS só acrescenta movimento temporário. */
+.reveal,.benefit-item{opacity:1}
+.benefit-item{min-height:76px}
+.benefit-visual,.benefit-visual>img{width:56px;height:72px}
+.feedbacks-compact .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);column-gap:18px;align-items:center;max-width:760px}
+.feedbacks-compact .feedback-heading{grid-column:1/-1;margin-bottom:24px}
+.feedbacks-compact .feedback-track{min-width:0;gap:12px;padding-bottom:8px}
+.feedbacks-compact .feedback-item{flex-basis:90%;max-width:220px;min-width:0}
+.feedbacks-compact .feedback-track.single .feedback-item{flex-basis:100%}
+.feedback-phrase{font:800 clamp(20px,3vw,32px)/1.2 var(--serif);letter-spacing:-.025em;color:var(--forest);text-wrap:balance}
+.payments-row{display:grid;grid-template-columns:repeat(3,max-content);gap:8px}
+.payment-tile[data-payment-brand="pix"]{grid-column:1/-1;justify-self:center;width:186px;height:82px}
+.payment-tile[data-payment-brand="pix"] img{width:170px;height:auto}
+@media(min-width:768px){
+ .inside-panel{grid-template-columns:minmax(0,.42fr) minmax(0,.58fr);min-height:0}
+ .inside-copy{padding:32px 12px 32px 32px}
+ .inside-scene{height:auto;min-height:0;padding:24px 10px}
+ .inside-document{width:100%;max-width:none;transform:none}
+ .inside-document img{max-height:none}
+}

@@ -2,14 +2,14 @@
 
 Consulta: 03/11/2026. Os arquivos são exibidos como imagens, com proporção preservada, sem filtros, recoloração, recorte, redesenho ou efeitos aplicados à marca. As bordas e os fundos brancos pertencem aos azulejos do site. A regra de Git desta pasta preserva os bytes dos SVGs, inclusive as quebras de linha dos arquivos oficiais.
 
-## Pix — pix.svg
+## Pix — pix-completo.svg
 
-- Página oficial: [Área dos participantes do Pix, seção Formulários e especificações / Marca](https://www.bcb.gov.br/estabilidadefinanceira/pix-participantes).
+- Página oficial: [Área dos participantes do Pix / Marca](https://www.bcb.gov.br/estabilidadefinanceira/pix-participantes).
 - Pacote original: [ArquivosdaMarcaPix.zip, Banco Central do Brasil](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/marca/ArquivosdaMarcaPix.zip).
-- Arquivo do pacote: `ArquivosdaMarcaPix/pdf/simbolo_pix_policromia_positivo.pdf`.
-- [Manual de Uso da Marca Pix, versão 1.6](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/Regulamento_Pix/I_manual_uso_marca_pix.pdf), páginas 13 e 19.
-- O símbolo isolado é permitido no comércio eletrônico e em conjuntos de meios de pagamento. Mínimo digital de 24 px; proteção X/2 conforme diagrama do manual. Centralização e paridade: as demais marcas não podem ultrapassar sua altura.
-- O pacote oficial disponibiliza o vetor em PDF, AI e EPS. `pix.svg` é uma exportação vetorial da página inteira do PDF oficial com PyMuPDF 1.26.6; não houve edição de traçados, ajuste de cor, recorte da página nem redesenho. O respiro original foi preservado. O PDF do pacote usa CMYK; a aparência da exportação foi conferida com a arte publicada no site do BC, sem impor manualmente outro valor hexadecimal. O manual também relaciona os valores RGB/HEX na página 10; o site não aplica substituição de cor sobre o arquivo fornecido.
+- Arte oficial completa para aplicações digitais: `ArquivosdaMarcaPix/pdf/marca_pix_policromia_positiva_sem_mensagem.pdf` (símbolo + logotipo, sem a mensagem adicional).
+- [Manual de Uso da Marca Pix, versão 1.6](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/Regulamento_Pix/I_manual_uso_marca_pix.pdf), páginas 6–10 e 19. A assinatura símbolo + logotipo é prevista para meios digitais. O mínimo é 145 px de comprimento da arte; preservar a área de proteção, as proporções e as cores.
+- O SVG é uma exportação vetorial da página inteira do PDF oficial com PyMuPDF 1.26.6. Nenhum traçado, cor ou proporção foi editado; sem recorte nem redesenho. O respiro original foi mantido.
+- A imagem tem 170 px de largura; a marca ocupa aproximadamente 150 px, acima do mínimo de 145 px. Para respeitar esse mínimo sem rolagem horizontal, o azulejo Pix ocupa uma linha própria acima das três bandeiras. Esta adaptação substitui a antiga linha única com símbolo isolado.
 
 ## Visa — visa.svg
 
@@ -45,7 +45,7 @@ O responsável confirmou expressamente a aceitação de **Visa, Mastercard e Elo
 
 SHA-256 das quatro artes entregues:
 
-- pix.svg: `5c8d43eb532b951a32e4c0f0b5e1c2b90c4c9a6138fdbe18fd70793e7e9ecc95`
+- pix-completo.svg: `f2720524a301b892aa3fd0922fd6bbceb9a9ac0bfd30aa2d68f2611397f1a808`
 - visa.svg: `c3c7c0a81027ca7135a51ef4d7c4618c2529161e2ab4ad007db663c357c73d8c`
 - mastercard.svg: `05df092590d7d56dd1531f25c8830ba2507d3d3aa2d19ad1649a59ce5a1a16f8`
 - elo.svg: `413cb2465abf02c758c6b7e2163f7b20b928351e0c56664e599eeb03e22d4a12`

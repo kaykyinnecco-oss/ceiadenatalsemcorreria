@@ -147,6 +147,14 @@
   function startCarousel() { if (reduced || carouselPaused || document.hidden || feedbacks.length < 2 || carouselTimer) return; carouselTimer = setInterval(() => moveCarousel(1), 5000); }
   if (feedbacks.length) {
     $('#depoimentos').hidden = false; trackEl.classList.toggle('single', feedbacks.length === 1);
+    const compactFeedback = feedbacks.length < 3;
+    $('#depoimentos').classList.toggle('feedbacks-compact', compactFeedback);
+    $('#depoimentos h2').textContent = feedbacks.length === 1 ? 'Feedback de quem já recebeu' : 'Feedbacks de quem já recebeu';
+    if (compactFeedback) {
+      const phrase = document.createElement('p'); phrase.className = 'feedback-phrase';
+      phrase.textContent = 'Mais clareza para organizar a ceia.';
+      $('#depoimentos .wrap').appendChild(phrase);
+    }
     $('.carousel-controls').hidden = feedbacks.length < 3;
     $('#feedback-prev').disabled = feedbacks.length < 3; $('#feedback-next').disabled = feedbacks.length < 3;
     feedbacks.forEach((src, i) => {
@@ -183,7 +191,15 @@
   function initializeMotion() {
     document.body.classList.add('motion-ready');
     if ('IntersectionObserver' in window && !reduced) {
-      const reveal = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.animate([{opacity:0,transform:'translateY(18px)'},{opacity:1,transform:'translateY(0)'}],{duration:550,delay:Number(e.target.dataset.revealDelay||0),easing:'cubic-bezier(.2,.7,.3,1)',fill:'backwards'}); reveal.unobserve(e.target); } }), { threshold: .05 });
+      // Conteúdo visível por padrão, inclusive sem JS. Entradas nunca esmaecem texto.
+      const entrances = new Set();
+      let entrancesExpired = false;
+      function enter(el, frames, options) {
+        if (entrancesExpired) return;
+        const animation = el.animate(frames, options); entrances.add(animation);
+        animation.finished.then(() => entrances.delete(animation), () => entrances.delete(animation));
+      }
+      const reveal = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { enter(e.target,[{transform:'translateY(18px)'},{transform:'translateY(0)'}],{duration:550,delay:Number(e.target.dataset.revealDelay||0),easing:'cubic-bezier(.2,.7,.3,1)',fill:'backwards'}); reveal.unobserve(e.target); } }), { threshold: .05 });
       $$('.reveal').forEach((el, i) => { el.dataset.revealDelay = String((i % 3) * 55); reveal.observe(el); });
       const count = new IntersectionObserver(entries => entries.forEach(e => { if (!e.isIntersecting) return; count.unobserve(e.target); const target = Number(e.target.dataset.count), start = performance.now(); function frame(t) { const p = Math.min(1, (t - start) / 650), value=String(Math.max(1, Math.round(target * (1 - (1 - p) ** 3)))); if(e.target.textContent!==value)e.target.textContent=value; if (p < 1) requestAnimationFrame(frame); } requestAnimationFrame(frame); }), { threshold: .4 });
       $$('[data-count]').forEach(el => count.observe(el));
@@ -192,12 +208,17 @@
       const benefitObserver = new IntersectionObserver(entries => entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         $$('.benefit-item', entry.target).forEach((row, index) => {
-          row.animate([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}], {duration:450,delay:index*60,easing:'cubic-bezier(.2,.7,.3,1)',fill:'backwards'});
-          $('.verification-badge', row).animate([{transform:'scale(1.4)',opacity:.3},{transform:'scale(.94)',opacity:1,offset:.72},{transform:'scale(1)',opacity:1}], {duration:550,delay:index*60,easing:'cubic-bezier(.2,.7,.3,1)',fill:'backwards'});
+          enter(row,[{transform:'translateY(12px)'},{transform:'translateY(0)'}], {duration:450,delay:index*60,easing:'cubic-bezier(.2,.7,.3,1)',fill:'backwards'});
+          enter($('.verification-badge', row),[{transform:'scale(1.4)'},{transform:'scale(.94)',offset:.72},{transform:'scale(1)'}], {duration:550,delay:index*60,easing:'cubic-bezier(.2,.7,.3,1)',fill:'backwards'});
         });
         benefitObserver.unobserve(entry.target);
       }), {threshold:.1});
       const benefitList = $('.benefit-list'); if (benefitList) benefitObserver.observe(benefitList);
+      // Watchdog independente das notificações: nenhuma entrada fica pendente após 1,5 s.
+      setTimeout(() => {
+        entrancesExpired = true; reveal.disconnect(); benefitObserver.disconnect();
+        entrances.forEach(animation => animation.cancel()); entrances.clear();
+      }, 1500);
     }
   }
   $('.hero-book img').decode().catch(() => {}).then(() => requestAnimationFrame(() => requestAnimationFrame(initializeMotion)));

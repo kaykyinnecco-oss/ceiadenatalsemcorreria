@@ -11,6 +11,7 @@
 
 ## Conferido nesta revisão
 
+- Refinamento pontual: entradas visíveis sem JS, com observador ausente ou silencioso e com rolagem rápida; watchdog de 1,5 s. Feedback compacto com menos de três prints e título singular com um. Miniaturas 56×72 px, recortes de cabeçalho/primeiras linhas e mockup desktop acima de 55% do cartão. Pix completo (símbolo + nome) do pacote oficial, com fonte e mínimo documentados em assets/pagamentos/FONTES.md. Sem novas pendências nesta rodada.
 - Novo pixel 902695826167879 substitui o ID antigo. Eventos e UTMs testados, sem envio real ao Meta durante QA.
 - Apenas o terceiro anexo da rodada atual foi aprovado para publicação. Os outros cinco mostram sobrenomes completos e aguardam tarja. Todos os três arquivos de feedback da versão anterior foram removidos.
 - Tabela real: 4, 6, 8, 10 e 12 pessoas. As opções 5, 7, 9 e 11 usam cálculo proporcional identificado no site, derivado das mesmas proporções. As listas prontas do PDF são para 6 e 10.

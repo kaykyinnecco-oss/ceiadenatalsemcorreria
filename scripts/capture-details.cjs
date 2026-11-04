@@ -21,12 +21,12 @@ const root=path.resolve(__dirname,'..'),out=process.env.CEIA_DETAILS_OUTPUT||pat
   for(const menu of ['tradicional','economico','pratico']){await page.locator('#tab-cardapios').click();await page.locator('[data-menu='+menu+']').click();await page.locator('#inside-image').evaluate(i=>i.decode());}
   const data=await page.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,images:[...document.images].filter(i=>i.getClientRects().length&&i.getAttribute('src')&&!i.closest('dialog')).map(i=>({src:i.getAttribute('src'),loaded:i.naturalWidth>0})),benefits:document.querySelectorAll('.benefit-item').length,feedbacks:document.querySelectorAll('.feedback-item').length,businessVisible:!document.querySelector('#business-details').hidden}));
   assert.equal(data.width,data.scrollWidth);assert.equal(data.benefits,7);assert.equal(data.feedbacks,1);assert.deepEqual(errors,[]);assert(data.images.every(i=>i.loaded));
-  // Test all four supplied official assets without announcing unconfirmed card acceptance in production.
+  // Quatro marcas confirmadas; Pix completo preserva o mínimo oficial numa linha própria.
   await page.locator('.offer-copy').scrollIntoViewIfNeeded();
   await page.evaluate(()=>document.querySelectorAll('[data-payment-brand]').forEach(tile=>tile.hidden=false));
   await page.locator('.offer-copy .payment-tile img').evaluateAll(imgs=>Promise.all(imgs.map(i=>i.decode())));
   const row=await page.locator('.offer-copy .payments-row').evaluate(el=>({width:el.clientWidth,scrollWidth:el.scrollWidth,rects:[...el.children].map(c=>c.getBoundingClientRect().toJSON()),logos:[...el.querySelectorAll('img')].map(i=>({alt:i.alt,loaded:i.naturalWidth>0}))}));
-  assert(row.rects.every(r=>Math.abs(r.top-row.rects[0].top)<1));assert(row.logos.every(i=>i.loaded));assert(row.scrollWidth<=row.width+1);
+  assert(row.rects[0].bottom<=row.rects[1].top);assert(row.rects.slice(1).every(r=>Math.abs(r.top-row.rects[1].top)<1));assert(row.logos.every(i=>i.loaded));assert(row.scrollWidth<=row.width+1);
   await page.locator('.offer-copy .payments-row').screenshot({path:path.join(out,`marcas-layout-quatro-${width}.png`)});
   report.push({...data,errors,allFourMarksFixture:row});await context.close();
  }

@@ -1,4 +1,20 @@
-# Verificação da revisão pontual de marcas e feedbacks
+# Verificação da revisão pontual de visibilidade e mockups
+
+## Rodada atual
+
+Playwright em **360×740, 390×844 e 1440×900**, com animações habilitadas: nenhuma rolagem horizontal, imagem visível quebrada, erro de página ou título/cartão/FAQ esmaecido. Rolagem rápida seguida de captura integral em cada tamanho. Também conferidos sem JavaScript, sem IntersectionObserver e com observador silencioso; o watchdog encerra as entradas pendentes após 1,5 s. Os efeitos de entrada movimentam os elementos sem reduzir a opacidade do conteúdo.
+
+Casos de zero, um, dois e três prints validados por fixtures isoladas, sem publicar imagens adicionais. Zero oculta a seção; um usa título singular; um e dois usam print ao lado da frase editorial, sem setas nem contagem. A produção permanece com o único print autorizado, sem alteração do seu conteúdo.
+
+As sete miniaturas têm 56×72 px no layout e arquivos WebP entre 2,2 e 5,0 KB. Os quatro exemplos de páginas foram recortados no cabeçalho e primeiras linhas; as capas e a composição celular/folha preservam os materiais reais. No desktop, a imagem das cinco abas ocupa aproximadamente **56% da largura do cartão**, sem limite antigo de 330 px.
+
+Pix completo (símbolo + nome), exportado da página inteira da arte vetorial oficial. A marca tem aproximadamente 150 px de comprimento, preservando o mínimo de 145 px e o respiro. Por isso ocupa uma linha própria sobre as três bandeiras. Fontes e integridade em assets/pagamentos/FONTES.md.
+
+**11 testes do relógio, 10 grupos funcionais e 8 verificações de conversão passaram.** Lighthouse mobile: **98**, acessibilidade **100**, boas práticas **100**, SEO **100**; LCP **2,48 s**, CLS **0**, TBT **11 ms**, por HTTP/gzip no mesmo ambiente local. O preço, o pixel, o checkout e as demais seções foram preservados.
+
+Reprodução: servidor HTTP na porta 8765 e `node scripts/qa-visibility.cjs`. Capturas e verificacao.json em prints/visibilidade, ou no diretório definido por CEIA_VISIBILITY_OUTPUT. As capturas integrais preservam a página; apenas os prints de componentes ocultam a faixa fixa, evitando sobreposição na fotografia.
+
+## Rodada anterior — marcas e feedbacks
 
 Rodada atual: Lighthouse mobile **98**, acessibilidade **100**, boas práticas **100**, SEO **100**; LCP **2,48 s**, CLS **0**, TBT **10 ms**, por HTTP/gzip no mesmo ambiente de QA.
 
