@@ -4,7 +4,7 @@ Rodada atual: Lighthouse mobile **98**, acessibilidade **100**, boas práticas *
 
 11 testes do relógio, 10 grupos funcionais e 8 verificações adicionais de conversão passaram. Playwright em 360×740, 390×844 e 1440×900: sete benefícios com miniaturas reais, um feedback apto, nenhum erro de página, nenhuma imagem visível quebrada e nenhuma rolagem horizontal. A fixture de quatro marcas confirmou a linha única e a carga das quatro imagens em todos os tamanhos; ela não confirma aceitação de bandeiras no checkout. Os prints de componentes ocultam a faixa fixa somente na captura para não sobrepor o componente fotografado.
 
-As pílulas de texto foram substituídas por imagens oficiais nos conjuntos do plano e da garantia. Apenas Pix está habilitado até confirmação das bandeiras de cartão. Razão social e CNPJ continuam pendentes de fornecimento; não foram inventados. As variáveis estão no topo de config.js e o rodapé já as renderiza quando preenchidas.
+As pílulas de texto foram substituídas por imagens oficiais nos conjuntos do plano e da garantia. Pix, Visa, Mastercard e Elo estão habilitados; a aceitação das três bandeiras foi confirmada pelo responsável. Razão social e CNPJ continuam pendentes de fornecimento; não foram inventados. As variáveis estão no topo de config.js e o rodapé já as renderiza quando preenchidas.
 
 As cinco imagens de depoimento com sobrenome completo não foram publicadas. O arquivo aprovado preserva a resolução original e o conteúdo integral. A árvore atual foi varrida quanto a referências antigas; arquivos removidos e adicionados são apresentados no relatório de entrega. O histórico Git é preservado, conforme a exigência de não usar force push.
 

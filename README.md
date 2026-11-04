@@ -25,7 +25,7 @@ Edite config.js. Não coloque credenciais nesse arquivo público.
 | ALVO_CEIA / ALVO_REVEILLON / FUSO | Datas do calendário de São Paulo |
 | TESTIMONIALS / SHOW_TESTIMONIALS | Prints WebP fornecidos, sem duplicação |
 | RAZAO_SOCIAL / CNPJ | Primeiras variáveis da oferta; identificação real mostrada no rodapé |
-| PAYMENT_BRANDS | Marcas confirmadas para a oferta; apenas Pix enquanto as bandeiras do cartão não forem confirmadas |
+| PAYMENT_BRANDS | Pix, Visa, Mastercard e Elo; bandeiras de cartão confirmadas pelo responsável |
 | PRIVACIDADE_URL / TERMOS_URL | URLs dos textos definitivos aprovados |
 | ENTREGA_CONFIRMADA | Canal de entrega validado na configuração do produto Cakto; resposta de até 20 palavras |
 | ORIENTACAO_13_CONFIRMADA | Só ativar após incluir e validar a orientação para grupos maiores no PDF |

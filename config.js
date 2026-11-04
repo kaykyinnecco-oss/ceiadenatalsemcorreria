@@ -11,7 +11,7 @@ window.CEIA_CONFIG = Object.freeze({
   FUSO: 'America/Sao_Paulo',
   SHOW_TESTIMONIALS: true, // Print anexado pelo responsável, copiado para /depoimentos.
   TESTIMONIALS: ['./depoimentos/feedback-03.webp'],
-  PAYMENT_BRANDS: ['pix'], // Bandeiras de cartão aguardam confirmação do responsável.
+  PAYMENT_BRANDS: ['pix', 'visa', 'mastercard', 'elo'], // Aceitação confirmada pelo responsável.
   PIXEL_REQUIRE_CONSENT: false,
   ENABLE_PIXEL_IN_PREVIEW: false, // Evita eventos de teste no pixel real.
   PRIVACIDADE_URL: '', // Informe a URL aprovada antes de publicar.

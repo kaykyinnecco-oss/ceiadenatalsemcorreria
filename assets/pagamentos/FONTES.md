@@ -39,7 +39,7 @@ Consulta: 03/11/2026. Os arquivos são exibidos como imagens, com proporção pr
 
 Opções observadas: **Pix, cartão de crédito, PicPay e Google Pay**. A seleção de cartão abriu os campos de cartão e parcelamento, mas não exibiu uma lista nominal das bandeiras aceitas. A presença da opção cartão não é tratada como prova da aceitação de cada bandeira.
 
-Enquanto a confirmação das bandeiras não for fornecida, `PAYMENT_BRANDS` contém apenas `pix`. Os outros três arquivos oficiais estão disponíveis e testados, mas ficam ocultos nos dois conjuntos de marcas. Nenhuma marca não verificada é anunciada como aceita. PicPay e Google Pay não foram adicionados à linha por não fazerem parte dos quatro logotipos solicitados.
+O responsável confirmou expressamente a aceitação de **Visa, Mastercard e Elo** nesta oferta. Com essa confirmação, `PAYMENT_BRANDS` habilita `pix`, `visa`, `mastercard` e `elo` nos dois conjuntos de marcas. A confirmação das bandeiras veio do responsável, e não de uma inferência da interface pública. PicPay e Google Pay não foram adicionados à linha por não fazerem parte dos quatro logotipos solicitados.
 
 ## Integridade dos arquivos incluídos
 

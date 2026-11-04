@@ -6,7 +6,7 @@
 2. Confirmar o canal de entrega na configuração deste produto na Cakto e preencher ENTREGA_CONFIRMADA. Hoje o FAQ informa apenas liberação após a confirmação do pagamento, sem prometer um canal específico.
 3. Fornecer/revisar as páginas legais definitivas e configurar PRIVACIDADE_URL e TERMOS_URL. Há diálogos informativos básicos como fallback.
 4. Incluir no PDF a orientação: “Multiplique a quantidade por pessoa. Forno, panelas e temperos pedem ajuste.” O repositório não traz o PDF completo nem uma amostra que comprove essa instrução. A opção “13 ou mais” exibe somente a mensagem, sem quantidades. O FAQ usa uma resposta conservadora até ORIENTACAO_13_CONFIRMADA ser validada.
-5. Confirmar as bandeiras de cartão deste checkout. A tela pública confirma Pix, cartão de crédito, PicPay e Google Pay, mas não lista as bandeiras. PAYMENT_BRANDS mantém apenas Pix até confirmação. As quatro artes oficiais e suas regras estão em assets/pagamentos/FONTES.md.
+5. Resolvido: o responsável confirmou Visa, Mastercard e Elo. PAYMENT_BRANDS habilita as quatro marcas, junto ao Pix, no plano e na garantia. Origens e regras em assets/pagamentos/FONTES.md.
 6. Os anexos 1, 2, 4, 5 e 6 da rodada atual precisam de tarja nos sobrenomes antes de qualquer publicação. Somente o anexo 3, com prenome e inicial, está na pasta de depoimentos. Nenhuma mensagem foi reescrita, cortada ou editada.
 
 ## Conferido nesta revisão
