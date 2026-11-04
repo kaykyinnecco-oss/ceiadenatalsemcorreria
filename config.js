@@ -52,7 +52,6 @@ window.CEIA_CONFIG = Object.freeze({
         "fullHeight": 1800
     }
 ],
-  FEEDBACK_SPEED: 35, // Velocidade do marquee em pixels por segundo.
   PAYMENT_BRANDS: ['pix', 'visa', 'mastercard', 'elo'], // Aceitação confirmada pelo responsável.
   CONSENT_MODE: 'notice',
   ENABLE_PIXEL_IN_PREVIEW: false, // Evita eventos de teste no pixel real.

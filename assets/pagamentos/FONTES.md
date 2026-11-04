@@ -9,7 +9,7 @@ Consulta: 03/11/2026. Os arquivos são exibidos como imagens, com proporção pr
 - Arte oficial completa para aplicações digitais: `ArquivosdaMarcaPix/pdf/marca_pix_policromia_positiva_sem_mensagem.pdf` (símbolo + logotipo, sem a mensagem adicional).
 - [Manual de Uso da Marca Pix, versão 1.6](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/Regulamento_Pix/I_manual_uso_marca_pix.pdf), páginas 6–10 e 19. A assinatura símbolo + logotipo é prevista para meios digitais. O mínimo é 145 px de comprimento da arte; preservar a área de proteção, as proporções e as cores.
 - O SVG é uma exportação vetorial da página inteira do PDF oficial com PyMuPDF 1.26.6. Nenhum traçado, cor ou proporção foi editado; sem recorte nem redesenho. O respiro original foi mantido.
-- Nesta rodada, o responsável solicitou os quatro arquivos na mesma linha, com logos de até 18 px de altura (16 px na garantia), em azulejos compactos. Essa instrução substitui o layout anterior de Pix em linha própria. Os bytes do arquivo oficial permanecem inalterados; apenas o tamanho de exibição e o azulejo foram ajustados.
+- Na última rodada, os quatro arquivos continuam na mesma linha, sem alterações nos bytes. Todos os azulejos têm 34 px de altura no plano e na garantia. O tamanho de exibição compensa o respiro interno de cada arquivo: aproximadamente 20 px de arte visível, inclusive no símbolo e nome Pix. Sem filtro, recoloração ou opacidade artificial; o cinza do nome faz parte do original. A escala compacta é a solicitada pelo responsável, substituindo a aplicação anterior de 145 px; não se afirma atendimento àquele mínimo nesta disposição.
 
 ## Visa — visa.svg
 

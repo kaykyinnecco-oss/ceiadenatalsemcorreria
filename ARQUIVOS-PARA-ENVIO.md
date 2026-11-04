@@ -1,6 +1,8 @@
-# Arquivos públicos do projeto
+# Arquivos da revisão
 
-PDFs pagos, originais, prints, .env, node_modules e ZIPs ficam fora do Git.
+Envio à main autorizado pelo responsável. Código estático, assets públicos e ferramentas de QA. PDFs pagos, originais, .env, node_modules, ZIPs, prints e relatórios gerados não entram no envio.
+
+Total: 90 arquivos no projeto.
 
 - `.gitattributes`
 - `.gitignore`
@@ -9,15 +11,17 @@ PDFs pagos, originais, prints, .env, node_modules e ZIPs ficam fora do Git.
 - `DEPOIMENTOS.md`
 - `README-PENDENCIAS.md`
 - `README.md`
+- `TIPOGRAFIA-MOBILE.md`
 - `VERIFICACAO-MARQUEE.md`
+- `VERIFICACAO-ULTIMA-RODADA.md`
 - `VERIFICACAO.md`
 - `app.js`
 - `assets/beneficios/cardapios-detalhe.webp`
-- `assets/beneficios/cronograma-detalhe.webp`
+- `assets/beneficios/cronograma-topo.webp`
 - `assets/beneficios/digital-detalhe.webp`
 - `assets/beneficios/mesa-detalhe.webp`
-- `assets/beneficios/orcamento-detalhe.webp`
-- `assets/beneficios/quantidades-detalhe.webp`
+- `assets/beneficios/orcamento-topo.webp`
+- `assets/beneficios/quantidades-topo.webp`
 - `assets/beneficios/reveillon-detalhe.webp`
 - `assets/cover-small.webp`
 - `assets/cover.webp`
@@ -72,12 +76,14 @@ PDFs pagos, originais, prints, .env, node_modules e ZIPs ficam fora do Git.
 - `feedbacks.js`
 - `index.html`
 - `popup.js`
+- `scripts/audit-feedbacks.cjs`
 - `scripts/audit-files.cjs`
 - `scripts/capture-details.cjs`
 - `scripts/capture-revision.cjs`
 - `scripts/qa-conversion.cjs`
 - `scripts/qa-final-interactions.cjs`
 - `scripts/qa-final.cjs`
+- `scripts/qa-last-round.cjs`
 - `scripts/qa-marquee-navigation.cjs`
 - `scripts/qa-marquee.cjs`
 - `scripts/qa-revision.cjs`

@@ -12,4 +12,8 @@ O pedido desta rodada autorizou explicitamente a publicação dos cinco prints c
 
 ./depoimentos contém exatamente cinco arquivos: as miniaturas 320×640. ./assets/feedbacks contém as cinco ampliações 900×1800, qualidade 85, e o manifesto técnico. Os nomes neutros dos arquivos evitam nomes pessoais no alt text, que é sempre “Conversa de WhatsApp com feedback de cliente”.
 
-O responsável escolheu priorizar o limite de 25 KB e autorizou reduzir a qualidade só das miniaturas. Todas ficaram abaixo de 25.000 bytes. As ampliações mantêm qualidade 85. Cada miniatura corresponde a um único anexo; clones visuais do marquee usam aria-hidden e ficam fora da ordem de tabulação. Não representam novos clientes.
+O responsável escolheu priorizar o limite de 25 KB e autorizou reduzir a qualidade só das miniaturas. Todas ficaram abaixo de 25.000 bytes. As ampliações mantêm qualidade 85. Cada miniatura corresponde a um único anexo e aparece uma única vez no DOM. Não há clones visuais. O lightbox navega somente pelos cinco originais e só carrega a ampliação ao ser aberto.
+
+## Auditoria da última rodada
+
+Cinco arquivos antes, zero duplicatas e cinco mantidos. Comparação por SHA-256 e dHash de 9×8 em escala de cinza, com distância de Hamming ≤5. A menor distância entre pares foi 14. Portanto nenhum arquivo foi apagado com git rm. A repetição estava nos conjuntos clonados do antigo marquee, removidos do código. Reproduza com node scripts/audit-feedbacks.cjs.
