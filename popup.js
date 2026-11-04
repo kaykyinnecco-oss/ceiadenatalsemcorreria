@@ -20,7 +20,7 @@ window.initCeiaPopup = ({ $, $$, C, store, reduced, openDialog, closeDialog }) =
     $('#popup-benefits').hidden = variant === 'B'; $('#popup-faq').hidden = variant !== 'B';
     const state = window.ceiaClock.getState();
     $('#exit-title').textContent = variant === 'B' ? 'Ficou alguma dúvida?' : 'Vai deixar a ceia para a véspera?';
-    $('#exit-text').textContent = variant === 'B' ? 'Seu plano completo por R$ 19,99.' : state.phase === 'ended' ? 'Leve o plano pronto por R$ 19,99.' : `Faltam ${state.days} dias. Leve o plano pronto por R$ 19,99.`;
+    $('#exit-text').textContent = variant === 'B' ? 'Seu plano completo por R$ 19,99.' : state.phase === 'ended' ? 'Leve o plano pronto por R$ 19,99.' : `Faltam ${state.days} dias. Leve o plano pronto por R$ 19,99.`;
     store.set('sessionStorage', 'ceia-exit-shown', '1');
     openDialog(dialog); return true;
   }

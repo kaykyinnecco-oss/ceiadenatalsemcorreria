@@ -1,3 +1,5 @@
 * text=auto eol=lf
 *.webp binary
 *.woff2 binary
+
+/assets/pagamentos/*.svg -text

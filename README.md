@@ -24,7 +24,8 @@ Edite config.js. Não coloque credenciais nesse arquivo público.
 | SUPORTE | E-mail mostrado no rodapé e nos termos |
 | ALVO_CEIA / ALVO_REVEILLON / FUSO | Datas do calendário de São Paulo |
 | TESTIMONIALS / SHOW_TESTIMONIALS | Prints WebP fornecidos, sem duplicação |
-| RAZAO_SOCIAL / CNPJ | Identificação do fornecedor; preencher com dados reais |
+| RAZAO_SOCIAL / CNPJ | Primeiras variáveis da oferta; identificação real mostrada no rodapé |
+| PAYMENT_BRANDS | Marcas confirmadas para a oferta; apenas Pix enquanto as bandeiras do cartão não forem confirmadas |
 | PRIVACIDADE_URL / TERMOS_URL | URLs dos textos definitivos aprovados |
 | ENTREGA_CONFIRMADA | Canal de entrega validado na configuração do produto Cakto; resposta de até 20 palavras |
 | ORIENTACAO_13_CONFIRMADA | Só ativar após incluir e validar a orientação para grupos maiores no PDF |
@@ -52,7 +53,7 @@ Uma recusa explícita no banner bloqueia os eventos posteriores. O ID vazio não
 
 ## Interações
 
-Abas acessíveis por teclado e toque; seletor de convidados; carrossel com autoavanço de 5 s e pausa ao tocar/focar; lightbox de ampliação. As setas ficam ocultas no celular e, com menos de três prints, em qualquer tamanho. Reduced motion desliga autoavanço e animações.
+Abas acessíveis por teclado e toque; seletor de convidados; carrossel com autoavanço de 5 s e pausa ao tocar/focar; lightbox de ampliação. As setas ficam ocultas no celular e, com menos de um print, em qualquer tamanho. Reduced motion desliga autoavanço e animações.
 
 popup.js só é carregado após a primeira pintura. Variante A: saída pelo topo no desktop após 15 s e 25% de leitura; subida rápida no celular após 20 s e 50%. Variante B: 12 s contínuos com o cartão do plano visível, com três respostas curtas. Uma única abertura por sessão, bloqueada no fim da página e após clique no checkout. Sem interceptar histórico/voltar. Fecha por X, Esc, fora, “Agora não” e gesto no handle móvel. O foco fica dentro do diálogo e retorna à origem.
 
@@ -66,9 +67,10 @@ node scripts/audit-files.cjs
 node scripts/qa-revision.cjs
 node scripts/qa-conversion.cjs
 node scripts/capture-revision.cjs
+node scripts/capture-details.cjs
 ~~~
 
-Os três últimos scripts exigem Playwright e Chrome. Instale Playwright no ambiente de desenvolvimento ou defina CEIA_RUNTIME_MODULES com o diretório de módulos. CEIA_CHROME_PATH permite indicar o executável do Chrome. Os testes não são dependências de produção.
+Os quatro últimos scripts exigem Playwright e Chrome. Instale Playwright no ambiente de desenvolvimento ou defina CEIA_RUNTIME_MODULES com o diretório de módulos. CEIA_CHROME_PATH permite indicar o executável do Chrome. Os testes não são dependências de produção.
 
 Depois de editar as regras entre CRITICAL START e CRITICAL END de styles.css, execute node scripts/sync-critical.cjs para atualizar o CSS inline versionado em index.html. Isso é manutenção do código; a Vercel não executa build.
 
@@ -81,3 +83,9 @@ Remote: https://github.com/kaykyinnecco-oss/ceiadenatalsemcorreria.git. Envio à
 Para importar na Vercel: selecione esse repositório, Production Branch main, Framework Preset Other, raiz do projeto **.**, Build Command vazio, Install Command vazio e Output Directory **.**. Não há package.json nem etapa de build. vercel.json mantém a configuração estática. Quando o projeto já está ligado ao GitHub, um push à main aciona a publicação.
 
 Os ícones estão em assets/icons-v2.svg, com URL nova para evitar o cache da versão anterior. .gitignore exclui PDFs, originais, fontes-pdf, prints, ZIPs, .env e node_modules. Não publicar material pago, credenciais ou links privados de entrega.
+
+## Revisão de marcas e miniaturas
+
+Origens oficiais e regras: assets/pagamentos/FONTES.md. As sete miniaturas reais ficam em assets/beneficios, com até 2,55 KB por arquivo. O selo próprio está em assets/verified.svg. Previews recortados ficam em assets/previews; as páginas originais de assets/pages são preservadas para os mockups do hero e para ampliação. O preço segue R$ 19,99 e o pixel não foi alterado.
+
+A pasta de depoimentos tem apenas o terceiro anexo da rodada atual, convertido integralmente para WebP de qualidade 85, em 887×1774 px. Os demais aguardam tarja. A seção some quando a lista está vazia; não se duplicam prints para simular mais depoimentos.

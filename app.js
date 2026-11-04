@@ -10,6 +10,8 @@
   const money = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
   const store = { get(type, key) { try { return window[type].getItem(key); } catch { return null; } }, set(type, key, value) { try { window[type].setItem(key, value); } catch { /* Navegação privada. */ } } };
   const relativePage = page => `./assets/pages/${page}.webp`;
+  const croppedPages = { 'kit-09':550, 'kit-10':435, 'kit-12':550, 'kit-15':550, 'kit-19':680, 'kit-21':650, 'kit-28':650 };
+  $$('[data-payment-brand]').forEach(tile => { tile.hidden = !(C.PAYMENT_BRANDS || ['pix']).includes(tile.dataset.paymentBrand); });
   const events = [];
   let consent = store.get('localStorage', 'ceia-cookie-choice');
   let pixelReady = false;
@@ -81,7 +83,9 @@
   };
   let activeTab = 'cardapios';
   function showPage(page, title) {
-    $('#inside-image').src = relativePage(page); $('#inside-image').alt = `Página real: ${title}`;
+    $('#inside-image').width = croppedPages[page] ? 640 : 720;
+    $('#inside-image').height = croppedPages[page] || 1019;
+    $('#inside-image').src = croppedPages[page] ? `./assets/previews/${page}.webp` : relativePage(page); $('#inside-image').alt = `Página real: ${title}`;
     $('#inside-enlarge').dataset.page = page; $('#inside-enlarge').dataset.title = title;
     animateSwitch($('#inside-image'));
   }
@@ -147,7 +151,7 @@
     $('#feedback-prev').disabled = feedbacks.length < 3; $('#feedback-next').disabled = feedbacks.length < 3;
     feedbacks.forEach((src, i) => {
       const item = document.createElement('article'); item.className = 'feedback-item';
-      const img = document.createElement('img'); img.src = src.startsWith('./') ? src : `./${src}`; img.alt = `Print real de feedback ${i + 1}, enviado sobre o kit`; img.loading = 'lazy'; img.decoding = 'async'; img.width = 720; img.height = 1440;
+      const img = document.createElement('img'); img.src = src.startsWith('./') ? src : `./${src}`; img.alt = 'Conversa de WhatsApp com feedback de cliente'; img.loading = 'lazy'; img.decoding = 'async'; img.width = 887; img.height = 1774;
       const button = document.createElement('button'); button.className = 'ampliar'; button.textContent = 'Ampliar'; button.setAttribute('aria-label', `Ampliar feedback ${i + 1}`); button.addEventListener('click', () => { pauseCarousel(); openPreview(img.src, 'Feedback sobre o kit'); });
       img.addEventListener('load', () => { loadedFeedbacks++; });
       img.addEventListener('error', () => { item.hidden = true; if (![...trackEl.children].some(el => !el.hidden)) $('#depoimentos').hidden = true; });
@@ -185,6 +189,15 @@
       $$('[data-count]').forEach(el => count.observe(el));
       const seals = new IntersectionObserver(entries => entries.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('stamped'); seals.unobserve(e.target); }), { threshold: .5 });
       $$('.guarantee-seal').forEach(el => seals.observe(el));
+      const benefitObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        $$('.benefit-item', entry.target).forEach((row, index) => {
+          row.animate([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}], {duration:450,delay:index*60,easing:'cubic-bezier(.2,.7,.3,1)',fill:'backwards'});
+          $('.verification-badge', row).animate([{transform:'scale(1.4)',opacity:.3},{transform:'scale(.94)',opacity:1,offset:.72},{transform:'scale(1)',opacity:1}], {duration:550,delay:index*60,easing:'cubic-bezier(.2,.7,.3,1)',fill:'backwards'});
+        });
+        benefitObserver.unobserve(entry.target);
+      }), {threshold:.1});
+      const benefitList = $('.benefit-list'); if (benefitList) benefitObserver.observe(benefitList);
     }
   }
   $('.hero-book img').decode().catch(() => {}).then(() => requestAnimationFrame(() => requestAnimationFrame(initializeMotion)));

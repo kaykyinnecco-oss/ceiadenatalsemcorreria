@@ -1,4 +1,14 @@
-# Verificação da página revisada
+# Verificação da revisão pontual de marcas e feedbacks
+
+Rodada atual: Lighthouse mobile **98**, acessibilidade **100**, boas práticas **100**, SEO **100**; LCP **2,48 s**, CLS **0**, TBT **10 ms**, por HTTP/gzip no mesmo ambiente de QA.
+
+11 testes do relógio, 10 grupos funcionais e 8 verificações adicionais de conversão passaram. Playwright em 360×740, 390×844 e 1440×900: sete benefícios com miniaturas reais, um feedback apto, nenhum erro de página, nenhuma imagem visível quebrada e nenhuma rolagem horizontal. A fixture de quatro marcas confirmou a linha única e a carga das quatro imagens em todos os tamanhos; ela não confirma aceitação de bandeiras no checkout. Os prints de componentes ocultam a faixa fixa somente na captura para não sobrepor o componente fotografado.
+
+As pílulas de texto foram substituídas por imagens oficiais nos conjuntos do plano e da garantia. Apenas Pix está habilitado até confirmação das bandeiras de cartão. Razão social e CNPJ continuam pendentes de fornecimento; não foram inventados. As variáveis estão no topo de config.js e o rodapé já as renderiza quando preenchidas.
+
+As cinco imagens de depoimento com sobrenome completo não foram publicadas. O arquivo aprovado preserva a resolução original e o conteúdo integral. A árvore atual foi varrida quanto a referências antigas; arquivos removidos e adicionados são apresentados no relatório de entrega. O histórico Git é preservado, conforme a exigência de não usar force push.
+
+## Registro da revisão anterior
 
 ## Método
 
@@ -20,7 +30,7 @@ Otimizações: hero WebP responsivo 480/768/1200, com 46.324/86.000/116.686 byte
 ## Testes
 
 - 11 testes do relógio passaram, preservando cálculo por Date.now, quatro unidades, datas de transição, HEAD inválido, file:// e reduced motion.
-- 10 grupos funcionais passaram: cinco abas com naturalWidth > 0, quantidades originais, FAQ, cinco datas, eventos/UTMs, ID vazio, três prints distintos, ampliação, autoavanço/pausa, saída desktop/mobile e fechamento fora.
+- 10 grupos funcionais passaram: cinco abas com naturalWidth > 0, quantidades originais, FAQ, cinco datas, eventos/UTMs, ID vazio, um print autorizado, ampliação, autoavanço/pausa, saída desktop/mobile e fechamento fora.
 - 8 testes adicionais passaram: seletor completo com origem dos valores, mensagem para 13+, variante B em 360/390/1280, atraso de 12 s, perguntas expansíveis, foco contido, fechamento por gesto, persistência por sessão, bloqueio no fim e após checkout, setas com 1/2/3 prints e inicialização do novo pixel.
 - O teste do pixel intercepta fbevents.js e verifica init 902695826167879, PageView, ViewContent e InitiateCheckout, sem transmitir eventos ao Meta.
 

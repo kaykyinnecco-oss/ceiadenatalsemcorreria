@@ -91,7 +91,7 @@ async function mouseOut(page) { await page.evaluate(() => document.dispatchEvent
   });
   await test('Poucos feedbacks: sem setas; desktop com três mantém setas visíveis', async () => {
     for (const count of [1,2,3]) {
-      const {context,page} = await setup(1280,800,source => source.replace(/TESTIMONIALS:\s*\[[^\]]*\]/, `TESTIMONIALS: ${JSON.stringify(['./depoimentos/conversa-ceia.webp','./depoimentos/roberto.webp','./depoimentos/mariana.webp'].slice(0,count))}`));
+      const {context,page} = await setup(1280,800,source => source.replace(/TESTIMONIALS:\s*\[[^\]]*\]/, `TESTIMONIALS: ${JSON.stringify(['./depoimentos/feedback-03.webp','./depoimentos/feedback-03.webp','./depoimentos/feedback-03.webp'].slice(0,count))}`));
       assert.equal(await page.locator('.feedback-item').count(), count);
       assert.equal(await page.locator('.carousel-controls').isVisible(), count >= 3);
       await context.close();
