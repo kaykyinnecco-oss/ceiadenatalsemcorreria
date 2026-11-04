@@ -1,65 +1,50 @@
-# Verificação da revisão pontual de visibilidade e mockups
+# Verificação da última rodada — 04/11/2026
 
-## Rodada atual
+Base: git pull --rebase origin main, commit 82aa3dfe04959ab39aa8da2172d5e9b9a7b4e0d7. Somente oferta, mockups, pagamentos, selo, cookies, pop-up, feedbacks e documentação desses pontos foram alterados.
 
-Playwright em **360×740, 390×844 e 1440×900**, com animações habilitadas: nenhuma rolagem horizontal, imagem visível quebrada, erro de página ou título/cartão/FAQ esmaecido. Rolagem rápida seguida de captura integral em cada tamanho. Também conferidos sem JavaScript, sem IntersectionObserver e com observador silencioso; o watchdog encerra as entradas pendentes após 1,5 s. Os efeitos de entrada movimentam os elementos sem reduzir a opacidade do conteúdo.
+## Layout e imagens
 
-Casos de zero, um, dois e três prints validados por fixtures isoladas, sem publicar imagens adicionais. Zero oculta a seção; um usa título singular; um e dois usam print ao lado da frase editorial, sem setas nem contagem. A produção permanece com o único print autorizado, sem alteração do seu conteúdo.
+Playwright por HTTP/gzip com npx serve@14.2.4. Seis viewports solicitados, mais duas janelas de 600 px de altura:
 
-As sete miniaturas têm 56×72 px no layout e arquivos WebP entre 2,2 e 5,0 KB. Os quatro exemplos de páginas foram recortados no cabeçalho e primeiras linhas; as capas e a composição celular/folha preservam os materiais reais. No desktop, a imagem das cinco abas ocupa aproximadamente **56% da largura do cartão**, sem limite antigo de 330 px.
+| Viewport | Altura do card | Cookies | Cortes por overflow | Slides públicos |
+| --- | ---: | ---: | ---: | ---: |
+| 360×740 | 945.0 px | 64 px | 0 | 0 |
+| 390×844 | 932.5 px | 64 px | 0 | 0 |
+| 412×915 | 932.5 px | 64 px | 0 | 0 |
+| 768×1024 | 932.5 px | 48 px | 0 | 0 |
+| 1366×768 | 631.6 px | 48 px | 0 | 0 |
+| 1440×900 | 631.6 px | 48 px | 0 | 0 |
+| 360×600 | 945.0 px | 64 px | 0 | 0 |
+| 1366×600 | 631.6 px | 48 px | 0 | 0 |
 
-Pix completo (símbolo + nome), exportado da página inteira da arte vetorial oficial. A marca tem aproximadamente 150 px de comprimento, preservando o mínimo de 145 px e o respiro. Por isso ocupa uma linha própria sobre as três bandeiras. Fontes e integridade em assets/pagamentos/FONTES.md.
+Zero rolagem horizontal, imagens quebradas ou erros JavaScript nos oito tamanhos. O script scripts/qa-final.cjs compara o getBoundingClientRect de cada mockup com todos os ancestrais com overflow diferente de visible, separando os eixos, e falha se detectar corte. Foram verificados 32 elementos na página e 3 em cada variante do pop-up, por viewport. Os pop-ups A/B ficaram abaixo de min(90vh,620px), sem rolagem interna, inclusive nas janelas de 600 px de altura.
 
-**11 testes do relógio, 10 grupos funcionais e 8 verificações de conversão passaram.** Lighthouse mobile: **98**, acessibilidade **100**, boas práticas **100**, SEO **100**; LCP **2,48 s**, CLS **0**, TBT **11 ms**, por HTTP/gzip no mesmo ambiente local. O preço, o pixel, o checkout e as demais seções foram preservados.
+As seis linhas da oferta e as miniaturas reais foram preservadas, com os bônus em uma linha. O preço é estático. Desktop: 960 px e grade 5fr/7fr; preço ao lado do título para respeitar 640 px de altura. Celular: capa, título, benefícios, preço, CTA, garantia e bandeiras. Todos os quatro logos oficiais foram mantidos byte a byte, com exibição proporcional na mesma linha, sem recoloração ou recorte.
 
-Reprodução: servidor HTTP na porta 8765 e `node scripts/qa-visibility.cjs`. Capturas e verificacao.json em prints/visibilidade, ou no diretório definido por CEIA_VISIBILITY_OUTPUT. As capturas integrais preservam a página; apenas os prints de componentes ocultam a faixa fixa, evitando sobreposição na fotografia.
+Selos renderizados a 160, 96 e 44 px. Os arcos usam textPath nos SVGs de assets; a versão compacta até 64 px mostra só 7/DIAS. O 7 da fonte Fraunces foi convertido em vetor para manter o desenho sem carregar uma fonte dentro de cada imagem. O rótulo “Pague com” tem 11 px. A garantia está centralizada em até 720 px.
 
-## Rodada anterior — marcas e feedbacks
+Prints em prints/ajustes-finais. Nos recortes de componentes, a navegação fixa e o skip-link são ocultados apenas durante a captura para não se sobreporem ao componente; o print hero-cookies conserva a interface real. Os prints estáticos usam reduced motion; os testes de interação usam movimento habilitado.
 
-Rodada atual: Lighthouse mobile **98**, acessibilidade **100**, boas práticas **100**, SEO **100**; LCP **2,48 s**, CLS **0**, TBT **10 ms**, por HTTP/gzip no mesmo ambiente de QA.
+## Consentimento e carrossel
 
-11 testes do relógio, 10 grupos funcionais e 8 verificações adicionais de conversão passaram. Playwright em 360×740, 390×844 e 1440×900: sete benefícios com miniaturas reais, um feedback apto, nenhum erro de página, nenhuma imagem visível quebrada e nenhuma rolagem horizontal. A fixture de quatro marcas confirmou a linha única e a carga das quatro imagens em todos os tamanhos; ela não confirma aceitação de bandeiras no checkout. Os prints de componentes ocultam a faixa fixa somente na captura para não sobrepor o componente fotografado.
+scripts/qa-final-interactions.cjs aprovou os modos notice e optin. Notice envia PageView, ViewContent e InitiateCheckout mesmo após “Só essenciais”. Optin bloqueia os três até o aceite e então envia os eventos pendentes. ID, preço e UTMs foram preservados. Nenhum evento de QA foi enviado ao Meta real.
 
-As pílulas de texto foram substituídas por imagens oficiais nos conjuntos do plano e da garantia. Pix, Visa, Mastercard e Elo estão habilitados; a aceitação das três bandeiras foi confirmada pelo responsável. Razão social e CNPJ continuam pendentes de fornecimento; não foram inventados. As variáveis estão no topo de config.js e o rodapé já as renderiza quando preenchidas.
+Carrossel testado com cinco fixtures locais explicitamente identificadas como TESTE DE LAYOUT: autoavanço em 5 s, pausa ao toque, navegação e lightbox com Esc. Celular: um inteiro e a ponta do próximo. Desktop: três inteiros, setas e pontos. As fixtures não são depoimentos e não foram copiadas para a pasta pública.
 
-As cinco imagens de depoimento com sobrenome completo não foram publicadas. O arquivo aprovado preserva a resolução original e o conteúdo integral. A árvore atual foi varrida quanto a referências antigas; arquivos removidos e adicionados são apresentados no relatório de entrega. O histórico Git é preservado, conforme a exigência de não usar force push.
+A publicação tem zero arquivos de depoimento e zero slides. Os cinco anexos reais têm sobrenomes completos e foram excluídos pela regra expressa do responsável. O feedback anterior foi removido por git rm; não há frase ou legenda criada para substituí-lo. O teste compara o número de slides ao número de arquivos. As conversões preservam as dimensões 887×1774, sem recorte, qualidade WebP 85, fora do Git.
 
-## Registro da revisão anterior
+## Desempenho
 
-## Método
+Lighthouse mobile padrão, Chrome headless, sem alterar fatores de CPU/rede:
 
-Mesmo computador, Chrome headless e Lighthouse 12.8.2 com simulação mobile padrão. Servidor HTTP serve 14.2.4 em localhost:8765 com gzip confirmado no cabeçalho Content-Encoding. Sem eventos enviados ao pixel real e sem abrir compras durante os testes. Medições de laboratório, não dados de usuários em produção.
+- Performance: 96/100.
+- LCP: 1.9 s.
+- CLS: 0.001.
+- TBT: 220 ms.
+- Acessibilidade: 100/100.
+- Boas práticas: 100/100.
+- SEO: 100/100.
 
-## Desempenho antes e depois
+As metas ≥90 e LCP <2,5 s foram atingidas nesta execução local. O CLS medido é informado, sem declarar deslocamento absolutamente zero em todos os dispositivos. Fontes e medidas reais podem gerar variação entre execuções. Os relatórios HTML/JSON completos acompanham os prints. A comparação com a versão anterior, sob as mesmas condições, marcou 87; medições anteriores desta rodada variaram e motivaram a otimização dos selos.
 
-| Métrica | Referência do projeto anterior | Antes neste computador | Depois neste computador |
-| --- | ---: | ---: | ---: |
-| Lighthouse mobile | 84 | 96 | 98 |
-| LCP | 2,60 s | 2,71 s | 2,40 s |
-| CLS | 0 | 0 | 0 |
-| TBT | 440 ms | 16 ms | 6 ms |
-
-Os valores de 84/2,6 s vieram da documentação original e de outro ambiente. A comparação direta usa as colunas medidas neste computador. A rodada final também obteve 100 em acessibilidade, boas práticas e SEO. Metas de performance ≥90 e LCP ≤2,5 s atingidas nesta medição.
-
-Otimizações: hero WebP responsivo 480/768/1200, com 46.324/86.000/116.686 bytes; preload e fetchpriority high na capa; dimensões reservadas; fontes WOFF2 locais; CSS crítico inline e restante não bloqueante; scripts defer; Meta e pop-up após a primeira pintura; lazy/async abaixo da primeira tela; imagens de páginas e bônus abaixo de 80 KB. A capa do cartão usa o arquivo de 46 KB. O hero nunca fica oculto esperando JavaScript.
-
-## Testes
-
-- 11 testes do relógio passaram, preservando cálculo por Date.now, quatro unidades, datas de transição, HEAD inválido, file:// e reduced motion.
-- 10 grupos funcionais passaram: cinco abas com naturalWidth > 0, quantidades originais, FAQ, cinco datas, eventos/UTMs, ID vazio, um print autorizado, ampliação, autoavanço/pausa, saída desktop/mobile e fechamento fora.
-- 8 testes adicionais passaram: seletor completo com origem dos valores, mensagem para 13+, variante B em 360/390/1280, atraso de 12 s, perguntas expansíveis, foco contido, fechamento por gesto, persistência por sessão, bloqueio no fim e após checkout, setas com 1/2/3 prints e inicialização do novo pixel.
-- O teste do pixel intercepta fbevents.js e verifica init 902695826167879, PageView, ViewContent e InitiateCheckout, sem transmitir eventos ao Meta.
-
-## Revisão visual
-
-Playwright por HTTP: 360×740, 390×844, 412×915, 768×1024, 1280×800 e 1440×900. Sem rolagem horizontal, textos fora do viewport, erros de página ou imagens quebradas. Conferência visual dos prints desktop, celular e pop-ups.
-
-Em 390×844 o mockup começa em y≈353 e termina em y≈703. O título, CTA e capa inteira aparecem na primeira tela. A faixa permanece fixa, com todas as unidades.
-
-Cinco datas simuladas: 03/11/2026 14:41, 23/12/2026 14:41, 24/12/2026 10h, 24/12/2026 21h e 02/01/2027 10h. São testadas as fases planejamento, véspera, dia da ceia, Réveillon e encerramento, sem alterar preço.
-
-Os prints finais usam reduced motion para registrar o estado completo. Autoavanço, gesto e animações são verificados em testes separados. Os mocks mantêm as páginas reais, sem recorte do conteúdo pago. Os arquivos de relatório e imagens são entregues separadamente e não pesam no deploy.
-
-## Limites
-
-Não houve compra, validação do recebimento do produto nem acesso administrativo à Cakto. CNPJ, canal de entrega, textos legais, orientação para grupos maiores no PDF e SVGs oficiais de pagamento continuam listados em README-PENDENCIAS.md. As métricas locais não garantem o mesmo resultado em todo aparelho, rede ou instalação de terceiros.
+11 testes unitários do relógio passaram. A auditoria de arquivos não encontrou recursos ou símbolos SVG faltantes. Os PDFs pagos, originais, arquivos de ambiente, prints e conversões privadas não entram no commit.

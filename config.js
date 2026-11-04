@@ -9,10 +9,10 @@ window.CEIA_CONFIG = Object.freeze({
   ALVO_CEIA: '2026-12-24T20:00:00-03:00',
   ALVO_REVEILLON: '2026-12-31T23:59:59-03:00',
   FUSO: 'America/Sao_Paulo',
-  SHOW_TESTIMONIALS: true, // Print anexado pelo responsável, copiado para /depoimentos.
-  TESTIMONIALS: ['./depoimentos/feedback-03.webp'],
+  SHOW_TESTIMONIALS: false, // Anexos desta rodada contêm sobrenomes completos; não publicar.
+  TESTIMONIALS: [],
   PAYMENT_BRANDS: ['pix', 'visa', 'mastercard', 'elo'], // Aceitação confirmada pelo responsável.
-  PIXEL_REQUIRE_CONSENT: false,
+  CONSENT_MODE: 'notice',
   ENABLE_PIXEL_IN_PREVIEW: false, // Evita eventos de teste no pixel real.
   PRIVACIDADE_URL: '', // Informe a URL aprovada antes de publicar.
   TERMOS_URL: '',

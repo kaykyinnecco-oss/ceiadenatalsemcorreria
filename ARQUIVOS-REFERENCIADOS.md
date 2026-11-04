@@ -1,6 +1,6 @@
 # Arquivos referenciados
 
-- OK — ./app.js (21404 bytes)
+- OK — ./app.js (22050 bytes)
 - OK — ./assets/beneficios/cardapios-detalhe.webp (3638 bytes)
 - OK — ./assets/beneficios/cronograma-detalhe.webp (4956 bytes)
 - OK — ./assets/beneficios/digital-detalhe.webp (3772 bytes)
@@ -12,6 +12,8 @@
 - OK — ./assets/favicon.svg (188 bytes)
 - OK — ./assets/fonts/dm-sans-latin.woff2 (36932 bytes)
 - OK — ./assets/fonts/fraunces-latin.woff2 (36620 bytes)
+- OK — ./assets/garantia-7-dias-compacta.svg (2137 bytes)
+- OK — ./assets/garantia-7-dias.svg (2392 bytes)
 - OK — ./assets/hero-1200.webp (116686 bytes)
 - OK — ./assets/hero-480.webp (46324 bytes)
 - OK — ./assets/hero-768.webp (86000 bytes)
@@ -37,9 +39,8 @@
 - OK — ./assets/previews/kit-21.webp (11112 bytes)
 - OK — ./assets/verified.svg (1039 bytes)
 - OK — ./calendar.js (10105 bytes)
-- OK — ./config.js (1105 bytes)
-- OK — ./depoimentos/feedback-03.webp (122298 bytes)
+- OK — ./config.js (1094 bytes)
 - OK — ./popup.js (4173 bytes)
-- OK — ./styles.css (33602 bytes)
+- OK — ./styles.css (43283 bytes)
 
 Arquivos faltantes: 0. Símbolos SVG faltantes: 0.

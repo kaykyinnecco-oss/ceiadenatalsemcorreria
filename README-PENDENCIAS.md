@@ -1,25 +1,9 @@
-# Pendências e limites reais
+# Pendências da última rodada
 
-## Dados que ainda precisam do responsável
+1. Razão social e CNPJ continuam vazios em config.js; o campo do rodapé permanece oculto.
+2. Todos os cinco anexos desta rodada mostram sobrenomes completos. Nenhum foi publicado, recortado ou reescrito. As conversões WebP qualidade 85 foram guardadas fora do repositório. A pasta pública de depoimentos tem zero arquivos, TESTIMONIALS está vazio e a seção está oculta. Para publicar feedbacks, fornecer versões sem os dados indicados no pedido.
+3. Confirmar o canal real de entrega da Cakto e preencher ENTREGA_CONFIRMADA; não foi inventado um canal.
+4. Fornecer as URLs definitivas de privacidade e termos. Permanecem os diálogos informativos existentes.
+5. A orientação para grupos maiores continua aguardando confirmação no PDF (ORIENTACAO_13_CONFIRMADA), sem alteração nesta rodada.
 
-1. Preencher RAZAO_SOCIAL e CNPJ em config.js. O rodapé omite esses campos enquanto estiverem vazios.
-2. Confirmar o canal de entrega na configuração deste produto na Cakto e preencher ENTREGA_CONFIRMADA. Hoje o FAQ informa apenas liberação após a confirmação do pagamento, sem prometer um canal específico.
-3. Fornecer/revisar as páginas legais definitivas e configurar PRIVACIDADE_URL e TERMOS_URL. Há diálogos informativos básicos como fallback.
-4. Incluir no PDF a orientação: “Multiplique a quantidade por pessoa. Forno, panelas e temperos pedem ajuste.” O repositório não traz o PDF completo nem uma amostra que comprove essa instrução. A opção “13 ou mais” exibe somente a mensagem, sem quantidades. O FAQ usa uma resposta conservadora até ORIENTACAO_13_CONFIRMADA ser validada.
-5. Resolvido: o responsável confirmou Visa, Mastercard e Elo. PAYMENT_BRANDS habilita as quatro marcas, junto ao Pix, no plano e na garantia. Origens e regras em assets/pagamentos/FONTES.md.
-6. Os anexos 1, 2, 4, 5 e 6 da rodada atual precisam de tarja nos sobrenomes antes de qualquer publicação. Somente o anexo 3, com prenome e inicial, está na pasta de depoimentos. Nenhuma mensagem foi reescrita, cortada ou editada.
-
-## Conferido nesta revisão
-
-- Refinamento pontual: entradas visíveis sem JS, com observador ausente ou silencioso e com rolagem rápida; watchdog de 1,5 s. Feedback compacto com menos de três prints e título singular com um. Miniaturas 56×72 px, recortes de cabeçalho/primeiras linhas e mockup desktop acima de 55% do cartão. Pix completo (símbolo + nome) do pacote oficial, com fonte e mínimo documentados em assets/pagamentos/FONTES.md. Sem novas pendências nesta rodada.
-- Novo pixel 902695826167879 substitui o ID antigo. Eventos e UTMs testados, sem envio real ao Meta durante QA.
-- Apenas o terceiro anexo da rodada atual foi aprovado para publicação. Os outros cinco mostram sobrenomes completos e aguardam tarja. Todos os três arquivos de feedback da versão anterior foram removidos.
-- Tabela real: 4, 6, 8, 10 e 12 pessoas. As opções 5, 7, 9 e 11 usam cálculo proporcional identificado no site, derivado das mesmas proporções. As listas prontas do PDF são para 6 e 10.
-- Os formulários do PDF não calculam automaticamente. A demonstração do site calcula os três exemplos, sem prometer automação dentro do arquivo.
-- As páginas reais dos mockups foram preservadas, inclusive suas referências de quantidade. Não há “4 a 12 pessoas” nos chips ou na copy principal.
-- O exemplo do PDF serve às 21h; o relógio comercial aponta 24/12/2026 às 20h, como no projeto original. Após esse horário, acompanha o Réveillon.
-- Kit com 51 páginas e 14 receitas; bônus com 11 e 13 páginas, conforme documentação original. Os arquivos pagos completos não fazem parte do repositório.
-- Metas locais de desempenho atingidas: Lighthouse mobile 98, LCP 2,48 s, CLS 0, TBT 10 ms. Medição por HTTP/gzip; detalhes e limitações em VERIFICACAO.md.
-- 11 testes do relógio, 10 grupos funcionais e 8 verificações adicionais de conversão passaram. Prints nos seis tamanhos e em cinco datas.
-
-O envio à main foi autorizado no pedido desta revisão. Não há nova aprovação pendente para o push. A confirmação do deploy é registrada na entrega; os dados de negócio acima continuam pendentes após a publicação.
+Preço preservado da versão puxada: R$ 19,99; pixel 902695826167879; logos oficiais inalterados. O responsável autorizou pull, commit, push à main e atualização da Vercel. Metas de desempenho local atingidas; detalhes em VERIFICACAO.md. A confirmação do deploy é informada na entrega.

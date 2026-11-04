@@ -1,8 +1,6 @@
 # Arquivos da revisão
 
-Envio à main autorizado pelo responsável. Código estático, assets públicos e ferramentas de QA. PDFs pagos, originais, .env, node_modules, ZIPs, prints e relatórios gerados não entram no envio.
-
-Total: 66 arquivos no projeto.
+Relação pública preparada para o commit autorizado. PDFs pagos, originais, conversões privadas, prints e relatórios de teste estão fora do envio.
 
 - `.gitattributes`
 - `.gitignore`
@@ -26,6 +24,8 @@ Total: 66 arquivos no projeto.
 - `assets/fonts/Fraunces-OFL.txt`
 - `assets/fonts/dm-sans-latin.woff2`
 - `assets/fonts/fraunces-latin.woff2`
+- `assets/garantia-7-dias-compacta.svg`
+- `assets/garantia-7-dias.svg`
 - `assets/hero-1200.webp`
 - `assets/hero-480.webp`
 - `assets/hero-768.webp`
@@ -56,13 +56,14 @@ Total: 66 arquivos no projeto.
 - `assets/verified.svg`
 - `calendar.js`
 - `config.js`
-- `depoimentos/feedback-03.webp`
 - `index.html`
 - `popup.js`
 - `scripts/audit-files.cjs`
 - `scripts/capture-details.cjs`
 - `scripts/capture-revision.cjs`
 - `scripts/qa-conversion.cjs`
+- `scripts/qa-final-interactions.cjs`
+- `scripts/qa-final.cjs`
 - `scripts/qa-revision.cjs`
 - `scripts/qa-visibility.cjs`
 - `scripts/runtime.cjs`

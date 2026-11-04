@@ -35,11 +35,11 @@
     }
     window.fbq('init', pixelID);
   }
+  const pendingEvents = [];
   function track(name, data = {}) {
     if (!pixelID) return;
-    // PageView ocorre ao carregar, independentemente do banner/aceite.
-    // Uma recusa explícita interrompe os eventos posteriores.
-    if (name !== 'PageView' && consent === 'essential') return;
+    // Notice registra preferência; optin só envia depois do aceite.
+    if (C.CONSENT_MODE === 'optin' && consent !== 'accepted') { pendingEvents.push({ name, data }); return; }
     bootPixel(); events.push({ event: name, data });
     if (preview) console.log('[Ceia Pixel]', name, data);
     if (!preview || C.ENABLE_PIXEL_IN_PREVIEW) window.fbq?.('track', name, data);
@@ -138,23 +138,22 @@
   const feedbacks = C.SHOW_TESTIMONIALS ? (C.TESTIMONIALS || []) : [];
   let loadedFeedbacks = 0;
   function moveCarousel(direction) {
-    if (feedbacks.length < 2) return;
-    slide = (slide + direction + feedbacks.length) % feedbacks.length;
+    if (feedbacks.length < 3) return;
+    const positions = Math.max(1, feedbacks.length - (innerWidth >= 768 ? 3 : 1) + 1);
+    slide = (slide + direction + positions) % positions;
     const item = trackEl.children[slide];
-    trackEl.scrollTo({ left: item.offsetLeft - trackEl.offsetLeft, behavior: reduced ? 'instant' : 'smooth' });
+    const left = trackEl.scrollLeft + item.getBoundingClientRect().left - trackEl.getBoundingClientRect().left;
+    trackEl.scrollTo({ left, behavior: reduced ? 'instant' : 'smooth' });
+    $$('.feedback-dots button').forEach((b,i) => b.setAttribute('aria-current', String(i === slide)));
   }
   function pauseCarousel() { carouselPaused = true; clearInterval(carouselTimer); carouselTimer = null; }
-  function startCarousel() { if (reduced || carouselPaused || document.hidden || feedbacks.length < 2 || carouselTimer) return; carouselTimer = setInterval(() => moveCarousel(1), 5000); }
+  function startCarousel() { if (reduced || carouselPaused || document.hidden || feedbacks.length < 3 || carouselTimer) return; carouselTimer = setInterval(() => moveCarousel(1), 5000); }
   if (feedbacks.length) {
     $('#depoimentos').hidden = false; trackEl.classList.toggle('single', feedbacks.length === 1);
     const compactFeedback = feedbacks.length < 3;
     $('#depoimentos').classList.toggle('feedbacks-compact', compactFeedback);
     $('#depoimentos h2').textContent = feedbacks.length === 1 ? 'Feedback de quem já recebeu' : 'Feedbacks de quem já recebeu';
-    if (compactFeedback) {
-      const phrase = document.createElement('p'); phrase.className = 'feedback-phrase';
-      phrase.textContent = 'Mais clareza para organizar a ceia.';
-      $('#depoimentos .wrap').appendChild(phrase);
-    }
+
     $('.carousel-controls').hidden = feedbacks.length < 3;
     $('#feedback-prev').disabled = feedbacks.length < 3; $('#feedback-next').disabled = feedbacks.length < 3;
     feedbacks.forEach((src, i) => {
@@ -164,6 +163,7 @@
       img.addEventListener('load', () => { loadedFeedbacks++; });
       img.addEventListener('error', () => { item.hidden = true; if (![...trackEl.children].some(el => !el.hidden)) $('#depoimentos').hidden = true; });
       item.append(img, button); trackEl.appendChild(item);
+      if (!compactFeedback && i <= feedbacks.length - (innerWidth >= 768 ? 3 : 1)) { const dot = document.createElement('button'); dot.setAttribute('aria-label', `Ver feedback ${i+1}`); dot.setAttribute('aria-current', String(i === 0)); dot.addEventListener('click', () => { pauseCarousel(); moveCarousel(i-slide); }); $('.feedback-dots').appendChild(dot); }
     });
     $('#feedback-prev').addEventListener('click', () => { pauseCarousel(); moveCarousel(-1); }); $('#feedback-next').addEventListener('click', () => { pauseCarousel(); moveCarousel(1); });
     trackEl.addEventListener('pointerdown', pauseCarousel, { passive: true }); trackEl.addEventListener('touchstart', pauseCarousel, { passive: true }); trackEl.addEventListener('focusin', pauseCarousel);
@@ -223,7 +223,7 @@
   }
   $('.hero-book img').decode().catch(() => {}).then(() => requestAnimationFrame(() => requestAnimationFrame(initializeMotion)));
   if ('IntersectionObserver' in window) {
-    const planObserver = new IntersectionObserver(entries => { if (!entries.some(e => e.isIntersecting)) return; if (!viewContentSent && consent !== 'essential') { track('ViewContent', { content_name: 'Ceia de Natal Sem Correria', value: C.PRECO, currency: 'BRL' }); viewContentSent = true; } planObserver.disconnect(); }, { threshold: .15 }); planObserver.observe($('#plano'));
+    const planObserver = new IntersectionObserver(entries => { if (!entries.some(e => e.isIntersecting)) return; if (!viewContentSent) { track('ViewContent', { content_name: 'Ceia de Natal Sem Correria', value: C.PRECO, currency: 'BRL' }); viewContentSent = true; } planObserver.disconnect(); }, { threshold: .15 }); planObserver.observe($('#plano'));
   }
   if (!reduced) $$('.tilt').forEach(el => {
     function tilt(event) { const r = el.getBoundingClientRect(); el.style.setProperty('--tilt-x', `${-(event.clientY - r.top - r.height / 2) / r.height * 4}deg`); el.style.setProperty('--tilt-y', `${(event.clientX - r.left - r.width / 2) / r.width * 4}deg`); el.classList.add('is-tilting'); }
@@ -233,9 +233,12 @@
   $$('.faq-list details').forEach(details => $('summary', details).addEventListener('click', e => { if (!details.open || reduced) return; e.preventDefault(); $('.faq-answer', details).animate([{ opacity: 1, transform: 'translateY(0)' }, { opacity: 0, transform: 'translateY(-5px)' }], { duration: 150 }).finished.then(() => { details.open = false; }); }));
 
   $('#cookie-banner').hidden = !!consent;
-  function chooseCookies(value) { consent = value; store.set('localStorage', 'ceia-cookie-choice', value); $('#cookie-banner').hidden = true; if (pixelReady && (!preview || C.ENABLE_PIXEL_IN_PREVIEW)) window.fbq?.('consent', value === 'accepted' ? 'grant' : 'revoke'); }
+  function chooseCookies(value) {
+    consent = value; store.set('localStorage', 'ceia-cookie-choice', value); $('#cookie-banner').hidden = true;
+    if (C.CONSENT_MODE === 'optin' && value === 'accepted') { const queued = pendingEvents.splice(0); queued.forEach(e => track(e.name, e.data)); }
+  }
   $('#cookie-accept').addEventListener('click', () => chooseCookies('accepted')); $('#cookie-essential').addEventListener('click', () => chooseCookies('essential')); $('#cookie-settings').addEventListener('click', () => { $('#cookie-banner').hidden = false; $('#cookie-essential').focus(); });
-  const privacy = `<p>Para informações sobre privacidade, fale com <a href="mailto:${C.SUPORTE}">${C.SUPORTE}</a>.</p><p>O Meta Pixel mede visitas, visualizações do plano e cliques de checkout. PageView ocorre ao carregar. “Só essenciais” interrompe eventos posteriores. Sua escolha é salva neste navegador.</p><p>Parâmetros de campanha utm_* e fbclid são repassados ao checkout da Cakto. Pagamentos e dados da compra são tratados no checkout.</p>`;
+  const privacy = `<p>Para informações sobre privacidade, fale com <a href="mailto:${C.SUPORTE}">${C.SUPORTE}</a>.</p><p>O Meta Pixel mede visitas, visualizações do plano e cliques de checkout. No modo aviso, a preferência não altera os eventos. No modo optin, os eventos aguardam o aceite. Sua escolha é salva neste navegador.</p><p>Parâmetros de campanha utm_* e fbclid são repassados ao checkout da Cakto. Pagamentos e dados da compra são tratados no checkout.</p>`;
   const terms = `<p>Kit digital em PDF: material principal, Mesa de Natal Encantadora e Réveillon Sem Correria. Versões digital e para imprimir.</p><p>${money.format(C.PRECO)} em pagamento único. Acesso após confirmação do pagamento. Reembolso integral em 7 dias, conforme art. 49 do CDC.</p><p>Quantidades e tempos são estimativas. Cardápios não adaptados a restrições. Imagens ilustrativas.</p>`;
   $$('[data-legal]').forEach(button => button.addEventListener('click', () => { const type = button.dataset.legal; const url = type === 'privacy' ? C.PRIVACIDADE_URL : C.TERMOS_URL; if (url) { location.href = url; return; } $('#legal-title').textContent = type === 'privacy' ? 'Privacidade' : 'Termos'; $('#legal-content').innerHTML = type === 'privacy' ? privacy : terms; openDialog($('#legal-dialog')); }));
 

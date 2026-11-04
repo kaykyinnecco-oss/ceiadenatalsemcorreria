@@ -30,6 +30,7 @@ Edite config.js. Não coloque credenciais nesse arquivo público.
 | ENTREGA_CONFIRMADA | Canal de entrega validado na configuração do produto Cakto; resposta de até 20 palavras |
 | ORIENTACAO_13_CONFIRMADA | Só ativar após incluir e validar a orientação para grupos maiores no PDF |
 | ENABLE_PIXEL_IN_PREVIEW | false evita eventos reais de QA em localhost e previews explícitos |
+| CONSENT_MODE | 'notice' por padrão registra a preferência sem bloquear eventos; 'optin' aguarda o aceite |
 
 A aplicação não precisa de variáveis de ambiente nem de instalação para publicar. As variáveis configuráveis são públicas, carregadas diretamente de config.js.
 
@@ -49,11 +50,11 @@ O cálculo demonstrativo do site não transforma os formulários do PDF em calcu
 
 PageView é agendado após a primeira pintura, sem depender de aceite. ViewContent ocorre ao alcançar #plano; InitiateCheckout em todos os links de checkout, inclusive no pop-up. utm_* e fbclid são repassados ao checkout. Em localhost, eventos aparecem no console. O QA intercepta o script Meta quando verifica o ID, sem enviar eventos reais.
 
-Uma recusa explícita no banner bloqueia os eventos posteriores. O ID vazio não dispara nenhum evento.
+Em `CONSENT_MODE: 'notice'`, PageView, ViewContent e InitiateCheckout são independentes dos botões do banner: eles registram somente a preferência. Em `CONSENT_MODE: 'optin'`, nenhum evento é enviado antes de “Aceitar”; eventos pendentes são enviados após o aceite. O ID vazio não dispara nenhum evento. A recusa no modo optin mantém o bloqueio.
 
 ## Interações
 
-Abas acessíveis por teclado e toque; seletor de convidados; carrossel com autoavanço de 5 s e pausa ao tocar/focar; lightbox de ampliação. As setas ficam ocultas no celular e, com menos de um print, em qualquer tamanho. Reduced motion desliga autoavanço e animações.
+Abas acessíveis por teclado e toque; seletor de convidados; com 3 ou mais prints, carrossel com autoavanço de 5 s, pausa ao tocar/focar, setas e pontos no desktop, deslizar no celular e lightbox. Com 1 ou 2, linha compacta centralizada sem setas nem autoavanço. Reduced motion desliga autoavanço e animações. Os cinco anexos desta rodada mostram sobrenomes completos e não foram publicados; a pasta de depoimentos está vazia e a seção oculta. Nenhuma legenda foi criada.
 
 popup.js só é carregado após a primeira pintura. Variante A: saída pelo topo no desktop após 15 s e 25% de leitura; subida rápida no celular após 20 s e 50%. Variante B: 12 s contínuos com o cartão do plano visível, com três respostas curtas. Uma única abertura por sessão, bloqueada no fim da página e após clique no checkout. Sem interceptar histórico/voltar. Fecha por X, Esc, fora, “Agora não” e gesto no handle móvel. O foco fica dentro do diálogo e retorna à origem.
 
@@ -69,13 +70,15 @@ node scripts/qa-conversion.cjs
 node scripts/qa-visibility.cjs
 node scripts/capture-revision.cjs
 node scripts/capture-details.cjs
+node scripts/qa-final.cjs
+node scripts/qa-final-interactions.cjs
 ~~~
 
 Os cinco últimos scripts exigem Playwright e Chrome. Instale Playwright no ambiente de desenvolvimento ou defina CEIA_RUNTIME_MODULES com o diretório de módulos. CEIA_CHROME_PATH permite indicar o executável do Chrome. Os testes não são dependências de produção.
 
 Depois de editar as regras entre CRITICAL START e CRITICAL END de styles.css, execute node scripts/sync-critical.cjs para atualizar o CSS inline versionado em index.html. Isso é manutenção do código; a Vercel não executa build.
 
-Relatórios em tests/reports; prints em prints/revisao, ambos ignorados no Git. VERIFICACAO.md registra métricas, método e limites. As fontes locais e suas licenças OFL estão em assets/fonts.
+Relatórios em tests/reports; prints desta rodada em prints/ajustes-finais, ambos ignorados no Git. VERIFICACAO.md registra métricas, método e limites. qa-final.cjs compara cada mockup com todos os ancestrais que têm overflow diferente de visible, por eixo, e falha se houver corte. Os selos usam SVGs com textPath e o dígito original Fraunces em vetor, carregados sob demanda; até 64 px a versão compacta mostra apenas “7” e “DIAS”. As fontes e suas licenças OFL estão em assets/fonts.
 
 ## GitHub e Vercel
 
