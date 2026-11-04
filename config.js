@@ -1,6 +1,8 @@
 // DADOS DA OFERTA — edite aqui, sem build.
 window.CEIA_CONFIG = Object.freeze({
   PRECO: 19.99,
+  RAZAO_SOCIAL: '', // Informe a razão social real do responsável.
+  CNPJ: '', // Informe o CNPJ real; exibido junto à razão social no rodapé.
   CHECKOUT: 'https://pay.cakto.com.br/pabj6or_1277278',
   PIXEL_META: '902695826167879',
   SUPORTE: 'empresakagency@gmail.com',
@@ -8,11 +10,10 @@ window.CEIA_CONFIG = Object.freeze({
   ALVO_REVEILLON: '2026-12-31T23:59:59-03:00',
   FUSO: 'America/Sao_Paulo',
   SHOW_TESTIMONIALS: true, // Print anexado pelo responsável, copiado para /depoimentos.
-  TESTIMONIALS: ['./depoimentos/conversa-ceia.webp', './depoimentos/roberto.webp', './depoimentos/mariana.webp'],
+  TESTIMONIALS: ['./depoimentos/feedback-03.webp'],
+  PAYMENT_BRANDS: ['pix'], // Bandeiras de cartão aguardam confirmação do responsável.
   PIXEL_REQUIRE_CONSENT: false,
   ENABLE_PIXEL_IN_PREVIEW: false, // Evita eventos de teste no pixel real.
-  RAZAO_SOCIAL: '',
-  CNPJ: '',
   PRIVACIDADE_URL: '', // Informe a URL aprovada antes de publicar.
   TERMOS_URL: '',
   ENTREGA_CONFIRMADA: '', // Preencha com o canal validado na configuração do produto Cakto.
