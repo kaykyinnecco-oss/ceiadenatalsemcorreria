@@ -28,7 +28,6 @@ Edite config.js. Não coloque credenciais nesse arquivo público.
 | PAYMENT_BRANDS | Pix, Visa, Mastercard e Elo; bandeiras de cartão confirmadas pelo responsável |
 | PRIVACIDADE_URL / TERMOS_URL | URLs dos textos definitivos aprovados |
 | ENTREGA_CONFIRMADA | Canal de entrega validado na configuração do produto Cakto; resposta de até 20 palavras |
-| ORIENTACAO_13_CONFIRMADA | Só ativar após incluir e validar a orientação para grupos maiores no PDF |
 | ENABLE_PIXEL_IN_PREVIEW | false evita eventos reais de QA em localhost e previews explícitos |
 | CONSENT_MODE | 'notice' por padrão registra a preferência sem bloquear eventos; 'optin' aguarda o aceite |
 
@@ -42,7 +41,7 @@ Simule em localhost com ?agora=2026-11-03T14:41:00-03:00. A simulação também 
 
 ## Conteúdo e quantidades
 
-As amostras públicas são páginas reais. O repositório não contém os PDFs pagos completos. A tabela original traz 4, 6, 8, 10 e 12 pessoas. O seletor inclui 5, 7, 9 e 11 como cálculo proporcional identificado, usando as mesmas proporções da amostra. Para 13 ou mais, exibe apenas a mensagem solicitada, sem tabela ou valores inventados.
+As amostras públicas são páginas reais. O repositório não contém os PDFs pagos completos. A tabela original traz 4, 6, 8, 10 e 12 pessoas. O seletor inclui 5, 7, 9 e 11 como cálculo proporcional identificado, usando as mesmas proporções da amostra. Para 13 ou mais, exibe “Multiplique as quantidades pelo número de pessoas.”, sem acrescentar valores à tabela.
 
 O cálculo demonstrativo do site não transforma os formulários do PDF em calculadoras. As listas prontas do material são para 6 e 10 pessoas. Leia README-PENDENCIAS.md antes de alterar promessas.
 
@@ -67,6 +66,7 @@ node --test tests/calendar.test.cjs
 node scripts/audit-files.cjs
 node scripts/audit-feedbacks.cjs
 node scripts/qa-last-round.cjs
+node scripts/qa-offer-card.cjs
 ~~~
 
 Os testes Playwright exigem Playwright e Chrome. Os scripts qa-final/qa-conversion/qa-marquee anteriores guardam premissas de rodadas antigas. A suíte atual é qa-last-round.cjs, com dez grupos, além dos onze testes unitários do relógio. Instale Playwright no ambiente de desenvolvimento ou defina CEIA_RUNTIME_MODULES com o diretório de módulos. CEIA_CHROME_PATH permite indicar o executável do Chrome. Os testes não são dependências de produção.
@@ -85,7 +85,7 @@ Os ícones estão em assets/icons-v2.svg, com URL nova para evitar o cache da ve
 
 ## Revisão de marcas e miniaturas
 
-Origens oficiais e regras: assets/pagamentos/FONTES.md. As sete miniaturas reais ficam em assets/beneficios, com até 5 KB por arquivo e 56×72 px no layout. O selo próprio está em assets/verified.svg. Previews recortados ficam em assets/previews; as páginas originais de assets/pages são preservadas para os mockups do hero e para ampliação. O preço segue R$ 19,99 e o pixel não foi alterado.
+Origens oficiais e regras: assets/pagamentos/FONTES.md. As sete miniaturas reais ficam em assets/beneficios, com até 5 KB por arquivo; no card final, 38×48 px no celular e tamanho anterior preservado no desktop. O selo próprio está em assets/verified.svg. Previews recortados ficam em assets/previews; as páginas originais de assets/pages são preservadas para os mockups do hero e para ampliação. O preço segue R$ 19,99 e o pixel não foi alterado.
 
 A pasta de depoimentos contém cinco miniaturas WebP de 320×640, até 25 KB cada. A auditoria SHA-256/dHash da última rodada não encontrou duplicatas nos arquivos. As ampliações originais continuam separadas, sem reescrita ou recorte das conversas.
 
@@ -96,3 +96,5 @@ A seção mantém a altura de 440 px no celular e 520 px no desktop. Cartões de
 As miniaturas têm 320×640 e no máximo 25.000 bytes. O responsável autorizou reduzir a qualidade apenas nelas para respeitar o limite; as ampliações têm 900×1800 e qualidade 85. Os valores de cada arquivo estão em assets/feedbacks/manifest.json.
 
 Privacidade e Termos ainda não têm URLs definitivas; Cookies abre somente o banner. Não há páginas jurídicas reais para confirmar HTTP 200. Essas três pendências estão em README-PENDENCIAS.md; nenhum texto jurídico foi criado nesta revisão.
+
+A rodada de compactação e faixa está registrada em VERIFICACAO-CARD-FINAL.md. A altura de 872 px em 390 px foi aprovada pelo responsável para preservar as seis linhas. Os valores tipográficos das rodadas anteriores são históricos; o botão compacto do topo agora usa espaçamento natural e 12 px no celular.

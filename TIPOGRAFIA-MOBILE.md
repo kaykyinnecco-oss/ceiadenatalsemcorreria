@@ -1,4 +1,6 @@
-# Tipografia no celular — antes e depois
+# Tipografia no celular — registro da rodada anterior
+
+Os valores desta tabela são históricos. A correção de espaços e os valores da rodada do card estão em VERIFICACAO-CARD-FINAL.md.
 
 Medidas de getComputedStyle em 360×740, 390×844, 412×915 e 430×932. Cada célula de largura mostra font-size antes → depois. As colunas finais relacionam as entrelinhas e o tracking medidos (em px; “normal” é o valor do navegador). Cores, famílias, pesos, grades, ordem, margens e paddings de seção não foram alterados. Botões principais têm 15 px; textos abaixo de 12 px foram elevados ao mínimo.
 

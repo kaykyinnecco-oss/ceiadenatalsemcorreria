@@ -84,7 +84,7 @@
   let activeTab = 'cardapios';
   function showPage(page, title) {
     $('#inside-image').width = croppedPages[page] ? 640 : 720;
-    $('#inside-image').height = croppedPages[page] || 1019;
+    $('#inside-image').height = croppedPages[page] || 1018;
     $('#inside-image').src = croppedPages[page] ? `./assets/previews/${page}.webp` : relativePage(page); $('#inside-image').alt = `Página real: ${title}`;
     $('#inside-enlarge').dataset.page = page; $('#inside-enlarge').dataset.title = title;
     animateSwitch($('#inside-image'));
@@ -126,7 +126,6 @@
     animateSwitch($('.quantity-table'));
   });
   if (C.ENTREGA_CONFIRMADA) $$('.faq-answer p')[3].textContent = C.ENTREGA_CONFIRMADA;
-  if (C.ORIENTACAO_13_CONFIRMADA) $$('.faq-answer p')[0].textContent = 'Sim. A tabela cobre 4 a 12 pessoas; para mais, multiplique. Forno e panelas pedem ajuste.';
   // Deslizar o mockup também navega pelas abas; não depende de hover.
   let tabTouchX;
   $('#inside-panel').addEventListener('touchstart', e => { tabTouchX = e.touches[0].clientX; }, { passive: true });

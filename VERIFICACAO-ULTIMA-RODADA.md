@@ -46,6 +46,6 @@ O caminho real do clique hero → plano → checkout foi testado com utm_source=
 - Privacidade: PRIVACIDADE_URL vazia; o controle abre apenas o diálogo existente. Não existe página real para confirmar HTTP 200.
 - Termos: TERMOS_URL vazia; o controle abre apenas o diálogo existente. Não existe página real para confirmar HTTP 200.
 - Cookies: o controle reabre o banner; não há página de cookies nem URL configurada para testar HTTP 200.
-- Continuam pendentes, fora desta rodada: confirmação do canal de entrega Cakto e da orientação para grupos maiores no PDF.
+- Atualização da rodada do card: a copy de convidados foi definida pelo responsável; continua pendente a confirmação do canal de entrega Cakto.
 
 Nenhum texto jurídico foi inventado e nenhum desses diálogos foi apresentado como página legal definitiva. As pendências legais permanecem explicitamente informadas após o push. Produção só é confirmada na entrega depois de esperar entre um e dois minutos e abrir a URL pública.

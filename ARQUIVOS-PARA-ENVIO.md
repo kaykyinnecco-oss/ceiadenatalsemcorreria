@@ -2,7 +2,7 @@
 
 Envio à main autorizado pelo responsável. Código estático, assets públicos e ferramentas de QA. PDFs pagos, originais, .env, node_modules, ZIPs, prints e relatórios gerados não entram no envio.
 
-Total: 90 arquivos no projeto.
+Total: 92 arquivos no projeto.
 
 - `.gitattributes`
 - `.gitignore`
@@ -12,6 +12,7 @@ Total: 90 arquivos no projeto.
 - `README-PENDENCIAS.md`
 - `README.md`
 - `TIPOGRAFIA-MOBILE.md`
+- `VERIFICACAO-CARD-FINAL.md`
 - `VERIFICACAO-MARQUEE.md`
 - `VERIFICACAO-ULTIMA-RODADA.md`
 - `VERIFICACAO.md`
@@ -86,6 +87,7 @@ Total: 90 arquivos no projeto.
 - `scripts/qa-last-round.cjs`
 - `scripts/qa-marquee-navigation.cjs`
 - `scripts/qa-marquee.cjs`
+- `scripts/qa-offer-card.cjs`
 - `scripts/qa-revision.cjs`
 - `scripts/qa-visibility.cjs`
 - `scripts/runtime.cjs`

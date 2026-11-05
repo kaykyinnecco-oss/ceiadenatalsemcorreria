@@ -16,7 +16,7 @@ async function shape(page){return page.evaluate(()=>{
  const textCuts=[],small=[],touch=[],walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
  const dialog=document.querySelector('dialog[open]');
  while(walker.nextNode()){
-  const node=walker.currentNode,el=node.parentElement;if(!node.textContent.trim()||el.closest('script,style,svg,.sr-only,dialog:not([open])')||!el.getClientRects().length||(dialog&&!dialog.contains(el)))continue;
+  const node=walker.currentNode,el=node.parentElement;if(!node.textContent.trim()||el.closest('script,style,svg,.sr-only,.offer-ribbon,dialog:not([open])')||!el.getClientRects().length||(dialog&&!dialog.contains(el)))continue;
   const s=getComputedStyle(el);if(s.visibility==='hidden')continue;
   if(innerWidth<768&&parseFloat(s.fontSize)<12)small.push({text:node.textContent.trim(),font:s.fontSize,element:el.outerHTML.slice(0,120)});
   if(el.closest('#inside-tabs,#feedback-window,.offer-ribbon'))continue;

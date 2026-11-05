@@ -58,5 +58,4 @@ window.CEIA_CONFIG = Object.freeze({
   PRIVACIDADE_URL: '', // Informe a URL aprovada antes de publicar.
   TERMOS_URL: '',
   ENTREGA_CONFIRMADA: '', // Preencha com o canal validado na configuração do produto Cakto.
-  ORIENTACAO_13_CONFIRMADA: false, // Falta a orientação no PDF publicado.
 });

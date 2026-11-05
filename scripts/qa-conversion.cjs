@@ -41,7 +41,7 @@ async function mouseOut(page) { await page.evaluate(() => document.dispatchEvent
     await page.locator('#people').selectOption('13');
     assert(await page.locator('#quantity-more').isVisible());
     assert(!(await page.locator('.quantity-table').isVisible()));
-    assert.equal(await page.locator('#quantity-more').textContent(), 'Multiplique a quantidade por pessoa. Forno, panelas e temperos pedem ajuste.');
+    assert.equal(await page.locator('#quantity-more').textContent(), 'Multiplique as quantidades pelo número de pessoas.');
     await page.screenshot({ path: path.join(prints, 'quantidades-13-ou-mais.png') });
     await page.locator('#people').selectOption('12'); assert(await page.locator('.quantity-table').isVisible());
     assert.deepEqual(errors, []); await context.close(); return { proportional: [5,7,9,11], above12: 'message only' };
